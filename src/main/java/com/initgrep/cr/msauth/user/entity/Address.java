@@ -1,12 +1,9 @@
-package com.initgrep.cr.msauth.user.dao;
+package com.initgrep.cr.msauth.user.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -14,13 +11,17 @@ import javax.persistence.Id;
 public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private Long id;
 	private String house;
 	private String street;
 	private String city;
 	private String state;
 	private String country;
-	private String pincode;
+	private String pinCode;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id", updatable = false, nullable = false)
+	private User user;
 	
 
 }

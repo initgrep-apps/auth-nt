@@ -1,6 +1,5 @@
 package com.initgrep.cr.msauth.user.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import lombok.Data;
 @Data
 public class UserDto {
 
-    private String id;
+    private Long id;
 
     private String name;
 

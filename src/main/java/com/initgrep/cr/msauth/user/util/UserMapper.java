@@ -1,13 +1,10 @@
 package com.initgrep.cr.msauth.user.util;
 
-import com.initgrep.cr.msauth.user.dao.Address;
-import com.initgrep.cr.msauth.user.dao.User;
+import com.initgrep.cr.msauth.user.entity.Address;
+import com.initgrep.cr.msauth.user.entity.User;
 import com.initgrep.cr.msauth.user.dto.AddressDto;
 import com.initgrep.cr.msauth.user.dto.UserDto;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
@@ -39,7 +36,7 @@ public class UserMapper {
         address.setCity(dto.getCity());
         address.setState(dto.getState());
         address.setCountry(dto.getCountry());
-        address.setPincode(dto.getPincode());
+        address.setPinCode(dto.getPinCode());
         return address;
     }
 

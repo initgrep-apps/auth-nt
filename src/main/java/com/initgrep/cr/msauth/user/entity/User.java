@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.user.dao;
+package com.initgrep.cr.msauth.user.entity;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -33,7 +33,7 @@ public class User {
 	@NotNull
 	private String phoneNumber;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	private List<Address> addresses;	
 	
 }

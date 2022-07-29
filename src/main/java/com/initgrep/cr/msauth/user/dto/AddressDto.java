@@ -6,12 +6,12 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AddressDto {
-    private String id;
+    private Long id;
 	private String house;
 	private String street;
 	private String city;
 	private String state;
 	private String country;
-	private String pincode;
+	private String pinCode;
 
 }
