@@ -1,27 +1,26 @@
 package com.initgrep.cr.msauth.user.dao;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Getter
+@Setter
+@Entity
 public class Address {
 	@Id
-	private String addressId;
-	private String address;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String id;
+	private String house;
+	private String street;
+	private String city;
+	private String state;
+	private String country;
+	private String pincode;
 	
-	
-	
-	public String getAddressId() {
-		return addressId;
-	}
-	public void setAddressId(String addressId) {
-		this.addressId = addressId;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	
-	
+
 }

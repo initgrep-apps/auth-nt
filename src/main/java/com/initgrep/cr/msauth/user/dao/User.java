@@ -2,55 +2,38 @@ package com.initgrep.cr.msauth.user.dao;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
 public class User {
 	
 	@Id
-	private String userId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String id;
+
 	@NotNull
 	private String name;
+	
 	@NotNull
 	private String email;
+	
 	@NotNull
 	private String phoneNumber;
 	
+	@OneToMany
 	private List<Address> addresses;	
-	
-	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	public List<Address> getAddresses() {
-		return addresses;
-	}
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
-	
-	
 	
 }
