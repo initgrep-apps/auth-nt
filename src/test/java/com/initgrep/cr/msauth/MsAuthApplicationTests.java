@@ -7,7 +7,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @ActiveProfiles(profiles = "test")
-@TestPropertySource("classpath:/application-test.properties")
+@TestPropertySource("classpath:/application-test.yaml")
 class MsAuthApplicationTests {
 
 	@Test

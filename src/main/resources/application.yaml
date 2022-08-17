@@ -1,0 +1,12 @@
+
+#database config
+spring:
+  datasource:
+    initialization-mode: always
+    url: jdbc:postgresql://localhost:5432/courierdb
+    username: postgres
+    password: s$cret
+
+  #dev profile is active
+  profiles:
+    active: dev
