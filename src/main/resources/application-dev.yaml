@@ -8,7 +8,6 @@ spring:
   liquibase:
     changeLog: db/changelog/changelog-master.yaml
     enabled: false
-
   jpa:
     show-sql: true
 

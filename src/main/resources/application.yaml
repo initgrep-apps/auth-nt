@@ -2,11 +2,15 @@
 #database config
 spring:
   datasource:
-    initialization-mode: always
-    url: jdbc:postgresql://localhost:5432/courierdb
+    url: jdbc:postgresql://localhost:5432/cr_dev_01
     username: postgres
-    password: s$cret
+    password: password
+  liquibase:
+    changeLog: db/changelog/changelog-master.yaml
+    enabled: false
+  jpa:
+    show-sql: true
 
-  #dev profile is active
+  #prod profile is active
   profiles:
     active: dev
