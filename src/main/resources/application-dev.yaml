@@ -7,7 +7,7 @@ spring:
     password: password
   liquibase:
     changeLog: db/changelog/changelog-master.yaml
-    enabled: false
+    enabled: true
   jpa:
     show-sql: true
 

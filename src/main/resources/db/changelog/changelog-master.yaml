@@ -1,7 +1,7 @@
 databaseChangeLog:
   - include:
-      file: changelog-1.0.structure.yaml
+      file: changelog-1.0.structure.postgresql.sql
       relativeToChangelogFile: true
   - include:
-      file: changelog-1.0.data.yaml
+      file: changelog-1.0.data.postgresql.sql
       relativeToChangelogFile: true
