@@ -1,6 +1,10 @@
 
-#database config
+server:
+  servlet:
+    context-path: /api/v1/${spring.application.name}/
 spring:
+  application:
+    name: auth
   datasource:
     url: jdbc:postgresql://localhost:5432/cr_dev_01
     username: postgres
