@@ -1,4 +1,5 @@
 server:
+  port: 8100
   servlet:
     context-path: /api/v1/${spring.application.name}/
 spring:

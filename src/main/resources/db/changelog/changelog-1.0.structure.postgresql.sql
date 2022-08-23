@@ -4,8 +4,10 @@
 CREATE TABLE app_user(
 	id int8 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	full_name varchar NULL,
-	email varchar NULL,
-	phone_number varchar null,
+	email varchar UNIQUE NULL,
+	phone_number varchar UNIQUE  null,
+	created_at date,
+	updated_at date,
 	primary KEY(id)
 );
 CREATE TABLE address (
@@ -17,6 +19,8 @@ CREATE TABLE address (
 	state varchar NULL,
 	country varchar NULL,
 	pincode varchar null,
+    created_at date,
+    updated_at date,
 	primary key(id),
 	constraint fk_app_user
 		foreign key(user_id)

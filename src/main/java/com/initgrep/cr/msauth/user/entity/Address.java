@@ -1,5 +1,6 @@
 package com.initgrep.cr.msauth.user.entity;
 
+import com.initgrep.cr.msauth.base.entity.BaseAuditEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +9,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Address {
+public class Address extends BaseAuditEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String house;
 	private String street;
 	private String city;
@@ -21,7 +23,7 @@ public class Address {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", updatable = false, nullable = false)
-	private User user;
+	private AppUser appUser;
 	
 
 }
