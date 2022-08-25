@@ -1,21 +1,27 @@
-
 server:
   port: 8100
   servlet:
-    context-path: /api/v1/${spring.application.name}/
+    context-path: /api/v1/
 spring:
   application:
     name: auth
   datasource:
-    url: jdbc:postgresql://localhost:5432/cr_dev_01
-    username: postgres
-    password: password
+    url: ${POSTGRES_DB_PATH}
+    username: ${POSTGRES_DB_USERNAME}
+    password: ${POSTGRES_DB_PASSWORD}
   liquibase:
     changeLog: db/changelog/changelog-master.yaml
-    enabled: false
+    enabled: true
   jpa:
     show-sql: true
 
   #prod profile is active
   profiles:
     active: dev
+
+access-token:
+  public: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
+  private: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
+refresh-token:
+  public: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
+  private: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}

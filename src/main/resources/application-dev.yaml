@@ -1,37 +1,7 @@
-
-server:
-  port: 8100
-  servlet:
-    context-path: /api/v1/${spring.application.name}/
-spring:
-  application:
-      name: auth
-  datasource:
-    url: jdbc:postgresql://localhost:5432/cr_dev_01
-    username: postgres
-    password: password
-  liquibase:
-    changeLog: db/changelog/changelog-master.yaml
-    enabled: true
-  jpa:
-    show-sql: true
-
-logging:
-  level:
-    liquibase: info
-    org:
-      hibernate:
-        sql: ERROR
-        type: ERROR
-        type.descriptor:
-            sql: TRACE
-      springframework:
-        web:
-          client:
-            RestTemplate: DEBUG
-log4J:
-  logger:
-    httpclient:
-      wire: DEBUG
-
-
+POSTGRES_DB_PATH: "jdbc:postgresql://localhost:5432/cr_dev_01"
+POSTGRES_DB_USERNAME: "postgres"
+POSTGRES_DB_PASSWORD: "password"
+ACCESS_TOKEN_PUBLIC_KEY_PATH: "token-keys/access-token-public.key"
+ACCESS_TOKEN_PRIVATE_KEY_PATH: "token-keys/access-token-private.key"
+REFRESH_TOKEN_PUBLIC_KEY_PATH: "token-keys/refresh-token-public.key"
+REFRESH_TOKEN_PRIVATE_KEY_PATH: "token-keys/refresh-token-private.key"

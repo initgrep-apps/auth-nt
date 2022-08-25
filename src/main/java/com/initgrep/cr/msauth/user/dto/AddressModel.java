@@ -2,7 +2,6 @@ package com.initgrep.cr.msauth.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 @Data
 @AllArgsConstructor
 public class AddressModel {
