@@ -1,10 +1,10 @@
-package com.initgrep.cr.msauth.user.controller;
+package com.initgrep.cr.msauth.auth.controller;
 
 import com.initgrep.cr.msauth.config.security.TokenGenerator;
-import com.initgrep.cr.msauth.user.dto.LoginDto;
-import com.initgrep.cr.msauth.user.dto.SingUpDto;
-import com.initgrep.cr.msauth.user.dto.TokenDto;
-import com.initgrep.cr.msauth.user.entity.AppUser;
+import com.initgrep.cr.msauth.auth.dto.LoginDto;
+import com.initgrep.cr.msauth.auth.dto.SingUpDto;
+import com.initgrep.cr.msauth.auth.dto.TokenDto;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,10 +38,11 @@ public class AuthController {
 
     @PostMapping("/register")
     public TokenDto register(@RequestBody SingUpDto singupDTO){
-        AppUser user =  new AppUser(singupDTO.getUsername(), passwordEncoder.encode(singupDTO.getPassword()) );
+        String encodedPassword  = passwordEncoder.encode(singupDTO.getPassword());
+        AppUser user =  new AppUser(singupDTO.getUsername(),encodedPassword);
         userDetailsManager.createUser(user);
         UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(user, singupDTO.getPassword(), Collections.emptyList());
+                = new UsernamePasswordAuthenticationToken(user,encodedPassword, Collections.emptyList());
 
         return tokenGenerator.createToken(authenticationToken);
     }
@@ -50,7 +51,7 @@ public class AuthController {
         //authenticate user via an authentication provider
         log.info("loginDTO = {}", loginDto);
         Authentication authenticate = daoAuthenticationProvider
-                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginDto.getUsername(), passwordEncoder.encode(loginDto.getPassword())));
+                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginDto.getUsername(), loginDto.getPassword()));
         log.info("authenticated - {} , {} , {}", authenticate.isAuthenticated(), authenticate.getPrincipal(), authenticate.getCredentials());
         return tokenGenerator.createToken(authenticate);
     }

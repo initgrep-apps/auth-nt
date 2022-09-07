@@ -1,7 +1,7 @@
 package com.initgrep.cr.msauth.config.security;
 
-import com.initgrep.cr.msauth.user.dto.TokenDto;
-import com.initgrep.cr.msauth.user.entity.AppUser;
+import com.initgrep.cr.msauth.auth.dto.TokenDto;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;

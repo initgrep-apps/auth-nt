@@ -1,12 +1,12 @@
-package com.initgrep.cr.msauth.user.service;
+package com.initgrep.cr.msauth.auth.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.initgrep.cr.msauth.user.entity.Address;
-import com.initgrep.cr.msauth.user.repository.AddressRepository;
+import com.initgrep.cr.msauth.auth.entity.Address;
+import com.initgrep.cr.msauth.auth.repository.AddressRepository;
 
 @Service
 public class AddressService {

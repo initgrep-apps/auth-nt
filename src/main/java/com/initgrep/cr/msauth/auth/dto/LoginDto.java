@@ -1,9 +1,9 @@
-package com.initgrep.cr.msauth.user.dto;
+package com.initgrep.cr.msauth.auth.dto;
 
 import lombok.Data;
 
 @Data
-public class SingUpDto {
+public class LoginDto {
     private String username;
     private String password;
 }

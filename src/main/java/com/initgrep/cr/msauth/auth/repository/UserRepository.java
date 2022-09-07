@@ -1,6 +1,6 @@
-package com.initgrep.cr.msauth.user.repository;
+package com.initgrep.cr.msauth.auth.repository;
 
-import com.initgrep.cr.msauth.user.entity.AppUser;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

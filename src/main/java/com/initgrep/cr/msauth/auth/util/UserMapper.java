@@ -1,7 +1,7 @@
-package com.initgrep.cr.msauth.user.util;
+package com.initgrep.cr.msauth.auth.util;
 
-import com.initgrep.cr.msauth.user.dto.UserModel;
-import com.initgrep.cr.msauth.user.entity.AppUser;
+import com.initgrep.cr.msauth.auth.dto.UserModel;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
 
 public final class UserMapper {
 

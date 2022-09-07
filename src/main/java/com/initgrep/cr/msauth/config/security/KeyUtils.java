@@ -63,7 +63,7 @@ public class KeyUtils {
         File privateKeyFile = new File(privateKeyPath);
 
         if (!publicKeyFile.exists() || !privateKeyFile.exists()) {
-            if(Arrays.asList(environment.getActiveProfiles()).stream().anyMatch(p -> p.equals("prod"))){
+            if(Arrays.asList(environment.getActiveProfiles()).contains("prod")){
                 throw new RuntimeException("Public or Private key does not exist");
             }
             File directory =  new File("token-keys");

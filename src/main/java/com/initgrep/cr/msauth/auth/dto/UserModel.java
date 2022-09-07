@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.user.dto;
+package com.initgrep.cr.msauth.auth.dto;
 
 import lombok.Builder;
 import lombok.Data;

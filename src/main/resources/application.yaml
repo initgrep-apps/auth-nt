@@ -12,9 +12,12 @@ spring:
   liquibase:
     changeLog: db/changelog/changelog-master.yaml
     enabled: true
+  #jpa logs
   jpa:
     show-sql: true
-
+    format-sql: true
+  cache:
+    type: none
   #prod profile is active
   profiles:
     active: dev
@@ -25,3 +28,15 @@ access-token:
 refresh-token:
   public: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
   private: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
+
+  #Logging
+logging:
+    level:
+      org.hibernate.SQL: DEBUG
+      org.hibernate.type: DEBUG
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      org.springframework.web.client.RestTemplate: DEBUG
+      org.hibernate.type.descriptor.sql: TRACE
+
+log4j:
+    logger.httpclient.wire: DEBUG
