@@ -41,7 +41,7 @@ public class WebSecurity {
         return httpSecurity
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .cors().disable()

@@ -36,7 +36,10 @@ public class TokenGenerator {
                 .issuedAt(now)
                 .expiresAt(now.plus(5, ChronoUnit.MINUTES))
                 .subject(String.valueOf(appUser.getId()))
-                .claim("username", appUser.getUsername())
+                //extra claims to be added here.
+                //make sure to get all claims from the token in tokenToUserConverter or
+                // let default jwtConverter do the work BUT i have not tested it yet
+//                .claim("username", appUser.getUsername())
                 .build();
 
         return accessTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
@@ -78,7 +81,7 @@ public class TokenGenerator {
             if(days < 7){
                 refreshToken =  createRefreshToken(authentication);
             }else{
-                refreshToken = jwt.getTokenValue();;
+                refreshToken = jwt.getTokenValue();
             }
         }else {
             refreshToken = createRefreshToken(authentication);

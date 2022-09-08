@@ -37,6 +37,7 @@ logging:
       org.hibernate.type.descriptor.sql.BasicBinder: TRACE
       org.springframework.web.client.RestTemplate: DEBUG
       org.hibernate.type.descriptor.sql: TRACE
+      org.springframework.security: DEBUG
 
 log4j:
     logger.httpclient.wire: DEBUG

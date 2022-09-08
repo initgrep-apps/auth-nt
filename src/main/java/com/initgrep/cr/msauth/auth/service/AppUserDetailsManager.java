@@ -16,6 +16,7 @@ public class AppUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void createUser(UserDetails user) {
+        //@TODO: should check if the user already exists
         userRepository.save((AppUser) user);
     }
 
