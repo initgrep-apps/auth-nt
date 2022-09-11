@@ -13,7 +13,6 @@ public class Address extends BaseAuditEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String house;
 	private String street;
 	private String city;
@@ -21,9 +20,9 @@ public class Address extends BaseAuditEntity{
 	private String country;
 	private String pinCode;
 
-//	@ManyToOne
-//	@JoinColumn(name = "user_id", updatable = false, nullable = false)
-//	private AppUser appUser;
-//
+	@ManyToOne
+	@JoinColumn(name = "user_id", updatable = false, nullable = false)
+	private AppUser appUser;
+
 
 }

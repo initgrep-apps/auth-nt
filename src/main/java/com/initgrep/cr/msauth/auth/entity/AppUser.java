@@ -8,15 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
+@Data // to be replaced with just getter and setter annotations
 
-@Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -26,24 +24,22 @@ public class AppUser extends BaseAuditEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NonNull
-//    private String fullName;
-//
-//    @OneToMany(mappedBy = "appUser")
-//    private transient  List<Address> addresses;
-//
-//    @NonNull
-//    @Column(unique = true)
-//    private String email;
-//
-//    @NonNull
-//    @Column(unique = true)
-//    private String phoneNumber;
+    @NonNull
+    @Column(unique = true)
+    private String email;
 
     @NonNull
-    private String username;
+    private String fullName;
+
+    @NonNull
+    @Column(unique = true)
+    private String phoneNumber;
     @NonNull
     private String password;
+
+    @OneToMany(mappedBy = "appUser")
+    private transient List<Address> addresses;
+
 
 
     @Override
@@ -58,7 +54,7 @@ public class AppUser extends BaseAuditEntity implements UserDetails {
 
     @Override
     public @NonNull String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

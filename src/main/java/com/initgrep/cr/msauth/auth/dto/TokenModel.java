@@ -3,8 +3,7 @@ package com.initgrep.cr.msauth.auth.dto;
 import lombok.Data;
 
 @Data
-public class TokenDto {
-    private String userId;
+public class TokenModel {
     private String accessToken;
     private String refreshToken;
 }

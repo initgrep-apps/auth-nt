@@ -31,13 +31,21 @@ refresh-token:
 
   #Logging
 logging:
-    level:
-      org.hibernate.SQL: DEBUG
-      org.hibernate.type: DEBUG
-      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-      org.springframework.web.client.RestTemplate: DEBUG
-      org.hibernate.type.descriptor.sql: TRACE
-      org.springframework.security: DEBUG
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.springframework.security: DEBUG
 
 log4j:
-    logger.httpclient.wire: DEBUG
+  logger.httpclient.wire: DEBUG
+
+#application variables
+app:
+  access-token:
+    expiry-duration-min: ${APP_ACCESS_TOKEN_EXPIRY_DURATION_MIN}
+  refresh-token:
+    expiry-duration-days: ${APP_REFRESH_TOKEN_EXPIRY_DURATION_DAYS}
+    min-renewal-days: ${APP_REFRESH_TOKEN_MIN_RENEWAL_DAYS}

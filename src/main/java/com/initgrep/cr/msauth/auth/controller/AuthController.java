@@ -1,15 +1,17 @@
 package com.initgrep.cr.msauth.auth.controller;
 
-import com.initgrep.cr.msauth.config.security.TokenGenerator;
-import com.initgrep.cr.msauth.auth.dto.LoginDto;
-import com.initgrep.cr.msauth.auth.dto.SingUpDto;
-import com.initgrep.cr.msauth.auth.dto.TokenDto;
+import com.initgrep.cr.msauth.auth.dto.LoginModel;
+import com.initgrep.cr.msauth.auth.dto.RegisterModel;
+import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.entity.AppUser;
+import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
+import com.initgrep.cr.msauth.auth.util.UserMapper;
+import com.initgrep.cr.msauth.auth.util.UtilMethods;
+import com.initgrep.cr.msauth.config.security.TokenGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 
+
 @RestController
 @RequestMapping("/auth")
 @Slf4j
@@ -34,8 +37,11 @@ public class AuthController {
     @Autowired
     private TokenGenerator tokenGenerator;
 
+//    @Autowired
+//    private DaoAuthenticationProvider daoAuthenticationProvider;
+
     @Autowired
-    private DaoAuthenticationProvider daoAuthenticationProvider;
+    private OptionalPasswordDaoAuthenticationProvider optionalPasswordDaoAuthenticationProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,24 +52,37 @@ public class AuthController {
 
     //to register first time
     @PostMapping("/register")
-    public TokenDto register(@RequestBody SingUpDto singupDTO){
-        String encodedPassword  = passwordEncoder.encode(singupDTO.getPassword());
-        AppUser user =  new AppUser(singupDTO.getUsername(),encodedPassword);
+    public TokenModel register(@RequestBody RegisterModel registerModel) {
+        //verify if Otp is valid
+        AppUser user = UserMapper.toEntityFromRegisterModel(registerModel);
+        String encodedPassword = passwordEncoder.encode(registerModel.getPassword());
+        user.setPassword(encodedPassword);
         userDetailsManager.createUser(user);
         UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(user,encodedPassword, Collections.emptyList());
-
+                = new UsernamePasswordAuthenticationToken(user, encodedPassword, Collections.emptyList());
         return tokenGenerator.createToken(authenticationToken);
     }
+
     // to login
     @PostMapping("/login")
-    public TokenDto login(@RequestBody LoginDto loginDto){
+    public TokenModel login(@RequestBody LoginModel loginModel) {
         //authenticate user via an authentication provider
-        log.info("loginDTO = {}", loginDto);
-        Authentication authenticate = daoAuthenticationProvider
-                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginDto.getUsername(), loginDto.getPassword()));
+        log.info("loginModel = {}", loginModel);
+        //verify Otp
+        String designatedUserName = !UtilMethods.isEmpty(loginModel.getPhoneNumber()) ? loginModel.getPhoneNumber() : loginModel.getEmail();
+
+        //check if password is provided
+        // if so - create a username and password authentication token
+        // authenticate it via DaoAuthenticationProvider
+        //else
+        // load the user via designednated username
+        // and authenticate mannually.
+
+        Authentication authenticate = optionalPasswordDaoAuthenticationProvider
+                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(designatedUserName, loginModel.getPassword()));
         log.info("authenticated - {} , {} , {}", authenticate.isAuthenticated(), authenticate.getPrincipal(), authenticate.getCredentials());
         return tokenGenerator.createToken(authenticate);
+
     }
 
     //token endpoint to get token after the login
@@ -71,8 +90,8 @@ public class AuthController {
     // refresh token validity is 30days. so if it has not expired or has more than week to expire, no point to issue a new one
 
     @PostMapping("/token")
-    public TokenDto token(@RequestBody TokenDto tokenDto){
-        Authentication authentication = refreshTokenAuthProvider.authenticate(new BearerTokenAuthenticationToken(tokenDto.getRefreshToken()));
+    public TokenModel token(@RequestBody TokenModel tokenModel) {
+        Authentication authentication = refreshTokenAuthProvider.authenticate(new BearerTokenAuthenticationToken(tokenModel.getRefreshToken()));
         //additional checks to be done here
         // implement the functionality to enable revoking capabilities ( checks Max's previous video for ref.)
 
