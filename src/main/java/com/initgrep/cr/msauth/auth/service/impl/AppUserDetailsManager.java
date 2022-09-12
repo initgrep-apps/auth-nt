@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.service;
+package com.initgrep.cr.msauth.auth.service.impl;
 
 import com.initgrep.cr.msauth.auth.entity.AppUser;
 import com.initgrep.cr.msauth.auth.exception.UserExistsException;
