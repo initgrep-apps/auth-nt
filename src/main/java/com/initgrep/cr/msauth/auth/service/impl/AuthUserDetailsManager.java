@@ -1,6 +1,6 @@
 package com.initgrep.cr.msauth.auth.service.impl;
 
-import com.initgrep.cr.msauth.auth.entity.AppUser;
+import com.initgrep.cr.msauth.auth.entity.User;
 import com.initgrep.cr.msauth.auth.exception.UserExistsException;
 import com.initgrep.cr.msauth.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +13,15 @@ import static com.initgrep.cr.msauth.auth.constants.AuthConstants.USER_ALREADY_E
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.USER_NOT_FOUND;
 
 @Service
-public class AppUserDetailsManager implements UserDetailsManager {
+public class AuthUserDetailsManager implements UserDetailsManager {
 
     @Autowired
     UserRepository userRepository;
 
     @Override
     public void createUser(UserDetails user) {
-        throwIfUserExists((AppUser) user);
-        userRepository.save((AppUser) user);
+        throwIfUserExists((User) user);
+        userRepository.save((User) user);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class AppUserDetailsManager implements UserDetailsManager {
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
     }
 
-    private void throwIfUserExists(AppUser user) {
+    private void throwIfUserExists(User user) {
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())
                 || userRepository.existsByEmail(user.getEmail())
         ) {

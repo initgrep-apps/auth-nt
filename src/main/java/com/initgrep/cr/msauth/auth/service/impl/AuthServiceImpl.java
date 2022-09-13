@@ -3,7 +3,7 @@ package com.initgrep.cr.msauth.auth.service.impl;
 import com.initgrep.cr.msauth.auth.dto.LoginModel;
 import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.entity.AppUser;
+import com.initgrep.cr.msauth.auth.entity.User;
 import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
 import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenModel register(RegisterModel registerModel) {
         //verify if Otp is valid
-        AppUser user = UserMapper.toEntityFromRegisterModel(registerModel);
+        User user = UserMapper.toEntityFromRegisterModel(registerModel);
         String encodedPassword = passwordEncoder.encode(registerModel.getPassword());
         user.setPassword(encodedPassword);
         userDetailsManager.createUser(user);

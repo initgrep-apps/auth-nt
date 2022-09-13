@@ -1,24 +1,23 @@
 package com.initgrep.cr.msauth.auth.entity;
 
 import com.initgrep.cr.msauth.base.entity.BaseAuditEntity;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
-@Data // to be replaced with just getter and setter annotations
 
+@Getter
+@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-public class AppUser extends BaseAuditEntity implements UserDetails {
+@Table(name = "app_user")
+public class User extends BaseAuditEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +36,13 @@ public class AppUser extends BaseAuditEntity implements UserDetails {
     @NonNull
     private String password;
 
-    @OneToMany(mappedBy = "appUser")
-    private transient List<Address> addresses;
-
-
+    @ManyToMany
+    @JoinTable(
+            name = "app_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
