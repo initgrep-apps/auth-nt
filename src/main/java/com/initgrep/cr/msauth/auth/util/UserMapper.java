@@ -2,27 +2,66 @@ package com.initgrep.cr.msauth.auth.util;
 
 import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
-import com.initgrep.cr.msauth.auth.entity.User;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
+import com.initgrep.cr.msauth.auth.entity.Role;
+import com.initgrep.cr.msauth.base.entity.UserAccount;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class UserMapper {
 
-    public static UserModel fromEntity(User user) {
+    public static UserModel fromEntity(AppUser user) {
         return UserModel.builder()
-                .name(user.getFullName())
+                .fullName(user.getFullName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .password(user.getPassword())
+                .grantedAuthorities(getAuthoritiesFromRoles(user.getRoles()))
+                .isAccountNonExpired(!user.getAccount().isAccountExpired())
+                .isAccountNonExpired(!user.getAccount().isAccountExpired())
+                .isCredentialsNonExpired(!user.getAccount().isCredentialExpired())
+                .isEnabled(user.getAccount().isEnabled())
                 .build();
     }
 
-    /** Password is not set in this conversion **/
-    public static User toEntityFromRegisterModel(RegisterModel registerModel) {
-        User user = new User();
-        user.setEmail(registerModel.getEmail());
-        user.setFullName(registerModel.getFullName());
-        user.setPhoneNumber(registerModel.getPhoneNumber());
-        //set encoded password using a setter
-        return user;
+    public static AppUser toEntityWithAccountEnabled(UserModel userModel) {
+        AppUser appUser = new AppUser();
+        appUser.setEmail(userModel.getEmail());
+        appUser.setFullName(userModel.getFullName());
+        appUser.setPhoneNumber(userModel.getPhoneNumber());
+        appUser.setPassword(userModel.getPassword());
+        appUser.setAccount(new UserAccount());
+        appUser.getAccount().setAccountExpired(false);
+        appUser.getAccount().setAccountLocked(false);
+        appUser.getAccount().setCredentialExpired(false);
+        appUser.getAccount().setEnabled(true);
+        return appUser;
     }
 
-    private UserMapper(){}
+    public static UserModel toUserModel(RegisterModel registerModel) {
+        return UserModel.builder()
+                .email(registerModel.getEmail())
+                .fullName(registerModel.getFullName())
+                .phoneNumber(registerModel.getPhoneNumber())
+                .build();
+    }
+
+
+    private static Set<SimpleGrantedAuthority> getAuthoritiesFromRoles(Set<Role> roles) {
+        return roles.stream()
+                .flatMap(role -> {
+                    Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+                    authorities.addAll(role.getPermissions().stream()
+                            .map(permission -> new SimpleGrantedAuthority(permission.getName()) )
+                            .collect(Collectors.toSet()));
+                    return authorities.stream();
+                }).collect(Collectors.toSet());
+    }
+
+    private UserMapper() {
+    }
 }

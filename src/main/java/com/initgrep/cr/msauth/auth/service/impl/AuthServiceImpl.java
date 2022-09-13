@@ -3,7 +3,8 @@ package com.initgrep.cr.msauth.auth.service.impl;
 import com.initgrep.cr.msauth.auth.dto.LoginModel;
 import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.entity.User;
+import com.initgrep.cr.msauth.auth.dto.UserModel;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
 import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
 import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.server.resource.BearerTokenAuthentica
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 
@@ -46,12 +48,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenModel register(RegisterModel registerModel) {
         //verify if Otp is valid
-        User user = UserMapper.toEntityFromRegisterModel(registerModel);
+        UserModel userModel = UserMapper.toUserModel(registerModel);
         String encodedPassword = passwordEncoder.encode(registerModel.getPassword());
-        user.setPassword(encodedPassword);
-        userDetailsManager.createUser(user);
+        userModel.setPassword(encodedPassword);
+        userDetailsManager.createUser(userModel);
+
         UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(user, encodedPassword, Collections.emptyList());
+                = new UsernamePasswordAuthenticationToken(userModel, encodedPassword, Collections.emptyList());
         return tokenGenerator.createToken(authenticationToken);
     }
 

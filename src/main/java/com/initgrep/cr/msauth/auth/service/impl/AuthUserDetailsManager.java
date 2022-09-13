@@ -1,8 +1,10 @@
 package com.initgrep.cr.msauth.auth.service.impl;
 
-import com.initgrep.cr.msauth.auth.entity.User;
+import com.initgrep.cr.msauth.auth.dto.UserModel;
+import com.initgrep.cr.msauth.auth.entity.AppUser;
 import com.initgrep.cr.msauth.auth.exception.UserExistsException;
 import com.initgrep.cr.msauth.auth.repository.UserRepository;
+import com.initgrep.cr.msauth.auth.util.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,9 +21,10 @@ public class AuthUserDetailsManager implements UserDetailsManager {
     UserRepository userRepository;
 
     @Override
-    public void createUser(UserDetails user) {
-        throwIfUserExists((User) user);
-        userRepository.save((User) user);
+    public void createUser(UserDetails userModel) {
+        AppUser appUser = UserMapper.toEntityWithAccountEnabled((UserModel) userModel);
+        throwIfUserExists(appUser);
+        userRepository.save(appUser);
     }
 
     @Override
@@ -46,12 +49,12 @@ public class AuthUserDetailsManager implements UserDetailsManager {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByPhoneNumber(username)
-                .or(() -> userRepository.findByPhoneNumber(username))
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+        return UserMapper.fromEntity(userRepository.findByPhoneNumber(username)
+                .or(() -> userRepository.findByEmail(username))
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND)));
     }
 
-    private void throwIfUserExists(User user) {
+    private void throwIfUserExists(AppUser user) {
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())
                 || userRepository.existsByEmail(user.getEmail())
         ) {

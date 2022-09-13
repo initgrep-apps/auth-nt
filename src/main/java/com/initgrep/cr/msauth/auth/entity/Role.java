@@ -20,7 +20,7 @@ public class Role extends BaseAuditEntity {
     private String description;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Set<AppUser> users;
 
     @ManyToMany
     @JoinTable(

@@ -7,6 +7,10 @@ CREATE TABLE app_user(
 	email varchar UNIQUE NULL,
 	phone_number varchar UNIQUE  NULL,
 	password varchar NULL,
+	account_expired boolean NOT NULL,
+	account_locked boolean NOT NULL,
+	credential_expired boolean NOT NULL,
+	enabled boolean NOT NULL,
 	created_at date,
 	updated_at date,
 	primary KEY(id)

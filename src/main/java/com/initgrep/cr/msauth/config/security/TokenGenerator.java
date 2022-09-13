@@ -1,8 +1,7 @@
 package com.initgrep.cr.msauth.config.security;
 
-import com.initgrep.cr.msauth.auth.constants.AuthConstants;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.entity.AppUser;
+import com.initgrep.cr.msauth.auth.dto.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import static com.initgrep.cr.msauth.auth.constants.AuthConstants.*;
+import static com.initgrep.cr.msauth.auth.constants.AuthConstants.INVALID_APP_TOKEN;
 
 @Component
 public class TokenGenerator {
@@ -69,20 +68,20 @@ public class TokenGenerator {
     }
 
     private void throwIfNotAppUser(Authentication authentication) {
-        if (!(authentication.getPrincipal() instanceof AppUser)) {
+        if (!(authentication.getPrincipal() instanceof UserModel)) {
             throw new BadCredentialsException(INVALID_APP_TOKEN);
         }
     }
 
     private String createAccessToken(Authentication authentication) {
-        AppUser appUser = (AppUser) authentication.getPrincipal();
+        UserModel userModel = (UserModel) authentication.getPrincipal();
         Instant now = Instant.now();
 
         JwtClaimsSet claimSet = JwtClaimsSet.builder()
                 .issuer(issuerApp)
                 .issuedAt(now)
                 .expiresAt(now.plus(accessTokenExpiryMinutes, ChronoUnit.MINUTES))
-                .subject(appUser.getEmail())
+                .subject(userModel.getEmail())
                 //extra claims to be added here.
                 //make sure to get all claims from the token in tokenToUserConverter or
                 // let default jwtConverter do the work BUT i have not tested it yet
@@ -92,14 +91,14 @@ public class TokenGenerator {
     }
 
     private String createRefreshToken(Authentication authentication) {
-        AppUser appUser = (AppUser) authentication.getPrincipal();
+        UserModel userModel = (UserModel) authentication.getPrincipal();
         Instant now = Instant.now();
 
         JwtClaimsSet claimSet = JwtClaimsSet.builder()
                 .issuer("ms-auth")
                 .issuedAt(now)
                 .expiresAt(now.plus(refreshTokenExpiryDays, ChronoUnit.DAYS))
-                .subject(appUser.getEmail())
+                .subject(userModel.getEmail())
                 .build();
 
         return refreshTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
