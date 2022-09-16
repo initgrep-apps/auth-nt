@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Getter
@@ -13,23 +14,28 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
+@EntityListeners(AppUserListener.class)
 @Table(name = "app_user")
-public class AppUser extends BaseAuditEntity  {
+public class AppUser extends BaseAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String identifier;
+
     @NonNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NonNull
     private String fullName;
 
     @NonNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
+
     @NonNull
     private String password;
 
@@ -50,4 +56,11 @@ public class AppUser extends BaseAuditEntity  {
     })
     private UserAccount account;
 
+}
+
+class AppUserListener {
+    @PrePersist
+    public void addIdentifier(AppUser appUser) {
+        appUser.setIdentifier(String.valueOf(UUID.randomUUID()));
+    }
 }

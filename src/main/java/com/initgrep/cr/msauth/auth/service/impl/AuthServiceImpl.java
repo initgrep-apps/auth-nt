@@ -3,9 +3,9 @@ package com.initgrep.cr.msauth.auth.service.impl;
 import com.initgrep.cr.msauth.auth.dto.LoginModel;
 import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.dto.UserModel;
-import com.initgrep.cr.msauth.auth.entity.AppUser;
 import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
+import com.initgrep.cr.msauth.auth.repository.RoleRepository;
+import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
@@ -19,18 +19,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.util.Collections;
 
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    private UserDetailsManager userDetailsManager;
+    private AppUserDetailsManager userDetailsService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private TokenGenerator tokenGenerator;
@@ -47,14 +46,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenModel register(RegisterModel registerModel) {
-        //verify if Otp is valid
-        UserModel userModel = UserMapper.toUserModel(registerModel);
-        String encodedPassword = passwordEncoder.encode(registerModel.getPassword());
+        var userModel = UserMapper.toUserModel(registerModel);
+        var encodedPassword = passwordEncoder.encode(registerModel.getPassword());
         userModel.setPassword(encodedPassword);
-        userDetailsManager.createUser(userModel);
-
-        UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(userModel, encodedPassword, Collections.emptyList());
+        userModel = userDetailsService.createUser(userModel);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(userModel, encodedPassword, userModel.getGrantedAuthorities());
         return tokenGenerator.createToken(authenticationToken);
     }
 

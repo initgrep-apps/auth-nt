@@ -29,17 +29,14 @@ public class TokenGenerator {
     @Qualifier("jwtRefreshTokenEncoder")
     JwtEncoder refreshTokenEncoder;
 
-    @Value("${spring.application.name}")
-    private String issuerApp;
+    @Autowired
+    UserToJwtAccessTokenClaimSetConverter userToJwtAccessTokenClaimSetConverter;
 
-    @Value("${app.access-token.expiry-duration-min}")
-    private int accessTokenExpiryMinutes;
-
-    @Value("${app.refresh-token.expiry-duration-days}")
-    private int refreshTokenExpiryDays;
-
+    @Autowired
+    UserToJwtRefreshTokenClaimSetConverter userToJwtRefreshTokenClaimSetConverter;
     @Value("${app.refresh-token.min-renewal-days}")
     private int refreshTokenMinRenewalDays;
+
 
     public TokenModel createToken(Authentication authentication) {
         throwIfNotAppUser(authentication);
@@ -75,32 +72,13 @@ public class TokenGenerator {
 
     private String createAccessToken(Authentication authentication) {
         UserModel userModel = (UserModel) authentication.getPrincipal();
-        Instant now = Instant.now();
-
-        JwtClaimsSet claimSet = JwtClaimsSet.builder()
-                .issuer(issuerApp)
-                .issuedAt(now)
-                .expiresAt(now.plus(accessTokenExpiryMinutes, ChronoUnit.MINUTES))
-                .subject(userModel.getEmail())
-                //extra claims to be added here.
-                //make sure to get all claims from the token in tokenToUserConverter or
-                // let default jwtConverter do the work BUT i have not tested it yet
-                .build();
-
+        JwtClaimsSet claimSet = userToJwtAccessTokenClaimSetConverter.convert(userModel);
         return accessTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
     }
 
     private String createRefreshToken(Authentication authentication) {
         UserModel userModel = (UserModel) authentication.getPrincipal();
-        Instant now = Instant.now();
-
-        JwtClaimsSet claimSet = JwtClaimsSet.builder()
-                .issuer("ms-auth")
-                .issuedAt(now)
-                .expiresAt(now.plus(refreshTokenExpiryDays, ChronoUnit.DAYS))
-                .subject(userModel.getEmail())
-                .build();
-
+        JwtClaimsSet claimSet = userToJwtRefreshTokenClaimSetConverter.convert(userModel);
         return refreshTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
     }
 }

@@ -1,5 +1,6 @@
 package com.initgrep.cr.msauth.auth.providers;
 
+import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class OptionalPasswordDaoAuthenticationProvider extends DaoAuthentication
 
 
     @Autowired
-    public OptionalPasswordDaoAuthenticationProvider(PasswordEncoder passwordEncoder, UserDetailsManager userDetailsManager) {
+    public OptionalPasswordDaoAuthenticationProvider(PasswordEncoder passwordEncoder, AppUserDetailsManager userDetailsManager) {
         super.setPasswordEncoder(passwordEncoder);
         super.setUserDetailsService(userDetailsManager);
     }

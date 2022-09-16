@@ -1,8 +1,9 @@
 --liquibase formatted sql
 
--- changeset irshad:1662896745472
+-- changeset irshad:1662896745472-1
 CREATE TABLE app_user(
 	id int8 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	identifier varchar NOT NULL,
 	full_name varchar NULL,
 	email varchar UNIQUE NULL,
 	phone_number varchar UNIQUE  NULL,

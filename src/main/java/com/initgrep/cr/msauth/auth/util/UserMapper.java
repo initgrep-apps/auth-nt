@@ -15,6 +15,7 @@ public final class UserMapper {
 
     public static UserModel fromEntity(AppUser user) {
         return UserModel.builder()
+                .identifier(user.getIdentifier())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
