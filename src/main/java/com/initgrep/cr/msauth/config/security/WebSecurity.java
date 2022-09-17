@@ -1,5 +1,6 @@
 package com.initgrep.cr.msauth.config.security;
 
+import com.initgrep.cr.msauth.auth.providers.converter.JwtToUserConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

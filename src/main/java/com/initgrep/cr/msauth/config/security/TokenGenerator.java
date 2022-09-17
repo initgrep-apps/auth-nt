@@ -2,6 +2,8 @@ package com.initgrep.cr.msauth.config.security;
 
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
+import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtAccessTokenClaimSetConverter;
+import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtRefreshTokenClaimSetConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.INVALID_APP_TOKEN;
 
@@ -71,14 +72,12 @@ public class TokenGenerator {
     }
 
     private String createAccessToken(Authentication authentication) {
-        UserModel userModel = (UserModel) authentication.getPrincipal();
-        JwtClaimsSet claimSet = userToJwtAccessTokenClaimSetConverter.convert(userModel);
+        JwtClaimsSet claimSet = userToJwtAccessTokenClaimSetConverter.convert(authentication);
         return accessTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
     }
 
     private String createRefreshToken(Authentication authentication) {
-        UserModel userModel = (UserModel) authentication.getPrincipal();
-        JwtClaimsSet claimSet = userToJwtRefreshTokenClaimSetConverter.convert(userModel);
+        JwtClaimsSet claimSet = userToJwtRefreshTokenClaimSetConverter.convert(authentication);
         return refreshTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
     }
 }

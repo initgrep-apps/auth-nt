@@ -1,12 +1,12 @@
 package com.initgrep.cr.msauth.auth.entity;
 
+import com.initgrep.cr.msauth.auth.util.UtilMethods;
 import com.initgrep.cr.msauth.base.entity.BaseAuditEntity;
 import com.initgrep.cr.msauth.base.entity.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 
 @Getter
@@ -61,6 +61,6 @@ public class AppUser extends BaseAuditEntity {
 class AppUserListener {
     @PrePersist
     public void addIdentifier(AppUser appUser) {
-        appUser.setIdentifier(String.valueOf(UUID.randomUUID()));
+        appUser.setIdentifier(UtilMethods.guid());
     }
 }

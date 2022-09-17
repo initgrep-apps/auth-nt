@@ -3,6 +3,7 @@ package com.initgrep.cr.msauth.auth.service.impl;
 import com.initgrep.cr.msauth.auth.dto.LoginModel;
 import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
+import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
 import com.initgrep.cr.msauth.auth.repository.RoleRepository;
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
@@ -20,6 +21,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @Slf4j
@@ -44,6 +47,7 @@ public class AuthServiceImpl implements AuthService {
     @Qualifier("jwtRefreshTokenAuthenticationProvider")
     private JwtAuthenticationProvider refreshTokenAuthProvider;
 
+    @Transactional
     @Override
     public TokenModel register(RegisterModel registerModel) {
         var userModel = UserMapper.toUserModel(registerModel);
@@ -51,27 +55,18 @@ public class AuthServiceImpl implements AuthService {
         userModel.setPassword(encodedPassword);
         userModel = userDetailsService.createUser(userModel);
         var authenticationToken = new UsernamePasswordAuthenticationToken(userModel, encodedPassword, userModel.getGrantedAuthorities());
+        authenticationToken.setDetails(registerModel.getSource());
         return tokenGenerator.createToken(authenticationToken);
     }
 
     @Override
     public TokenModel login(LoginModel loginModel) {
-        //authenticate user via an authentication provider
-        log.info("loginModel = {}", loginModel);
-        //verify Otp
         String designatedUserName = !UtilMethods.isEmpty(loginModel.getPhoneNumber()) ? loginModel.getPhoneNumber() : loginModel.getEmail();
-
-        //check if password is provided
-        // if so - create a username and password authentication token
-        // authenticate it via DaoAuthenticationProvider
-        //else
-        // load the user via designednated username
-        // and authenticate mannually.
-
-        Authentication authenticate = optionalPasswordDaoAuthenticationProvider
-                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(designatedUserName, loginModel.getPassword()));
-        log.info("authenticated - {} , {} , {}", authenticate.isAuthenticated(), authenticate.getPrincipal(), authenticate.getCredentials());
-        return tokenGenerator.createToken(authenticate);
+        UsernamePasswordAuthenticationToken unauthenticatedToken = UsernamePasswordAuthenticationToken.unauthenticated(designatedUserName, loginModel.getPassword());
+        UsernamePasswordAuthenticationToken authenticatedToken = (UsernamePasswordAuthenticationToken)optionalPasswordDaoAuthenticationProvider.authenticate(unauthenticatedToken);
+        log.info("existing token details =- {}", authenticatedToken.getDetails());
+        authenticatedToken.setDetails(loginModel.getSource());
+        return tokenGenerator.createToken(authenticatedToken);
     }
 
     //token endpoint to get token after the login

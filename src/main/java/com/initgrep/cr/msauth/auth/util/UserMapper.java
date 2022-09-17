@@ -8,8 +8,12 @@ import com.initgrep.cr.msauth.base.entity.UserAccount;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.initgrep.cr.msauth.auth.util.UtilMethods.*;
+import static java.util.Objects.*;
 
 public final class UserMapper {
 
@@ -22,7 +26,7 @@ public final class UserMapper {
                 .password(user.getPassword())
                 .grantedAuthorities(getAuthoritiesFromRoles(user.getRoles()))
                 .isAccountNonExpired(!user.getAccount().isAccountExpired())
-                .isAccountNonExpired(!user.getAccount().isAccountExpired())
+                .isAccountNonLocked(!user.getAccount().isAccountLocked())
                 .isCredentialsNonExpired(!user.getAccount().isCredentialExpired())
                 .isEnabled(user.getAccount().isEnabled())
                 .build();
@@ -57,7 +61,7 @@ public final class UserMapper {
                     Set<SimpleGrantedAuthority> authorities = new HashSet<>();
                     authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
                     authorities.addAll(role.getPermissions().stream()
-                            .map(permission -> new SimpleGrantedAuthority(permission.getName()) )
+                            .map(permission -> new SimpleGrantedAuthority(permission.getName()))
                             .collect(Collectors.toSet()));
                     return authorities.stream();
                 }).collect(Collectors.toSet());

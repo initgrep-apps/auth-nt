@@ -7,5 +7,6 @@ public class LoginModel {
     private String email;
     private String phoneNumber;
     private String password;
-    private OtpValidationModel otpValidation;
+    private SourceModel source;
+    private OtpInfoModel otpInfo;
 }

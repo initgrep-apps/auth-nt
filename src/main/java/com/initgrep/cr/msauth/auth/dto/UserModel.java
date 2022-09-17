@@ -30,8 +30,6 @@ public class UserModel implements UserDetails {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;
@@ -44,7 +42,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return identifier;
     }
 
     @Override

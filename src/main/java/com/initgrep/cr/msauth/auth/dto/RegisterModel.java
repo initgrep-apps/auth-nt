@@ -8,5 +8,6 @@ public class RegisterModel {
     private String fullName;
     private String phoneNumber;
     private String password;
-    private OtpValidationModel otpValidation;
+    private SourceModel source;
+    private OtpInfoModel otpInfo;
 }

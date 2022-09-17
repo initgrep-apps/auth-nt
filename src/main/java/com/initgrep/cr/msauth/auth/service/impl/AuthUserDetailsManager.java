@@ -61,6 +61,8 @@ public class AuthUserDetailsManager implements AppUserDetailsManager {
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
         return UserMapper.fromEntity(userRepository.findByIdentifier(identifier)
+                .or(() -> userRepository.findByPhoneNumber(identifier))
+                .or(() -> userRepository.findByEmail(identifier))
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND)));
     }
 

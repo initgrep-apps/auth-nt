@@ -1,9 +1,8 @@
-package com.initgrep.cr.msauth.config.security;
+package com.initgrep.cr.msauth.auth.providers.converter;
 
+import com.initgrep.cr.msauth.auth.dto.UserModel;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +13,9 @@ public class JwtToUserConverter implements Converter<Jwt, UsernamePasswordAuthen
     @Override
     public UsernamePasswordAuthenticationToken convert(Jwt jwt) {
 
-        UserDetails user = User.builder()
-                .username(jwt.getSubject())
+        var userModel =  UserModel.builder()
+                .identifier(jwt.getSubject())
                 .build();
-        return new UsernamePasswordAuthenticationToken(user, jwt, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(userModel, jwt, Collections.emptyList());
     }
 }
