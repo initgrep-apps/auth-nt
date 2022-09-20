@@ -2,6 +2,7 @@ package com.initgrep.cr.msauth.auth.providers.converter;
 
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.Authentication;
@@ -13,10 +14,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.AUTHORIZATION_SERVER;
+import static com.initgrep.cr.msauth.auth.constants.JwtExtendedClaimNames.SCOPE;
 
 @Component
 public class UserToJwtRefreshTokenClaimSetConverter implements Converter<Authentication, JwtClaimsSet> {
 
+    @Autowired
+    private AuthorityToScopeConverter authorityToScopeConverter;
     @Value("${spring.application.name}")
     private String issuerApp;
 
@@ -34,6 +38,7 @@ public class UserToJwtRefreshTokenClaimSetConverter implements Converter<Authent
                 .expiresAt(now.plus(refreshTokenExpiryDays, ChronoUnit.DAYS))
                 .subject(user.getIdentifier())
                 .audience(Collections.singletonList(AUTHORIZATION_SERVER))
+                .claim(SCOPE, authorityToScopeConverter.convert(user.getGrantedAuthorities()))
                 .build();
 
 

@@ -8,6 +8,8 @@ public final class AuthConstants {
     public static final String AUTHORIZATION_SERVER = "as";
     public static final String RESOURCE_SERVER = "rs";
 
+    public static final String SPACE = " ";
+
     private AuthConstants() {
     }
 }

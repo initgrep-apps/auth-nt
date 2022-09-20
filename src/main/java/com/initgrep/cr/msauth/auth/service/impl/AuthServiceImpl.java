@@ -3,9 +3,7 @@ package com.initgrep.cr.msauth.auth.service.impl;
 import com.initgrep.cr.msauth.auth.dto.LoginModel;
 import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
-import com.initgrep.cr.msauth.auth.repository.RoleRepository;
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
@@ -32,9 +30,6 @@ public class AuthServiceImpl implements AuthService {
     private AppUserDetailsManager userDetailsService;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private TokenGenerator tokenGenerator;
 
     @Autowired
@@ -55,7 +50,6 @@ public class AuthServiceImpl implements AuthService {
         userModel.setPassword(encodedPassword);
         userModel = userDetailsService.createUser(userModel);
         var authenticationToken = new UsernamePasswordAuthenticationToken(userModel, encodedPassword, userModel.getGrantedAuthorities());
-        authenticationToken.setDetails(registerModel.getSource());
         return tokenGenerator.createToken(authenticationToken);
     }
 
@@ -65,7 +59,6 @@ public class AuthServiceImpl implements AuthService {
         UsernamePasswordAuthenticationToken unauthenticatedToken = UsernamePasswordAuthenticationToken.unauthenticated(designatedUserName, loginModel.getPassword());
         UsernamePasswordAuthenticationToken authenticatedToken = (UsernamePasswordAuthenticationToken)optionalPasswordDaoAuthenticationProvider.authenticate(unauthenticatedToken);
         log.info("existing token details =- {}", authenticatedToken.getDetails());
-        authenticatedToken.setDetails(loginModel.getSource());
         return tokenGenerator.createToken(authenticatedToken);
     }
 

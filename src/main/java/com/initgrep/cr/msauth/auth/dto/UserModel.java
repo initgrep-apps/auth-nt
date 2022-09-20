@@ -23,7 +23,7 @@ public class UserModel implements UserDetails {
     private String phoneNumber;
     private String password;
 
-    private Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
+    private Set<SimpleGrantedAuthority> grantedAuthorities;
 
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
