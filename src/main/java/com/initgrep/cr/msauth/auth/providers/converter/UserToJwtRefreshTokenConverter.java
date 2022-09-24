@@ -1,12 +1,16 @@
 package com.initgrep.cr.msauth.auth.providers.converter;
 
+import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -17,10 +21,14 @@ import static com.initgrep.cr.msauth.auth.constants.AuthConstants.AUTHORIZATION_
 import static com.initgrep.cr.msauth.auth.constants.JwtExtendedClaimNames.SCOPE;
 
 @Component
-public class UserToJwtRefreshTokenClaimSetConverter implements Converter<Authentication, JwtClaimsSet> {
+public class UserToJwtRefreshTokenConverter implements Converter<Authentication, TokenModel> {
 
     @Autowired
     private AuthorityToScopeConverter authorityToScopeConverter;
+
+    @Autowired
+    @Qualifier("jwtRefreshTokenEncoder")
+    private JwtEncoder refreshTokenEncoder;
     @Value("${spring.application.name}")
     private String issuerApp;
 
@@ -28,11 +36,12 @@ public class UserToJwtRefreshTokenClaimSetConverter implements Converter<Authent
     private int refreshTokenExpiryDays;
 
     @Override
-    public JwtClaimsSet convert(Authentication token) {
-        UserModel user = (UserModel) token.getPrincipal();
-        Instant now = Instant.now();
-        return JwtClaimsSet.builder()
-                .id(UtilMethods.guid())
+    public TokenModel convert(Authentication authentication) {
+        var user = (UserModel) authentication.getPrincipal();
+        var now = Instant.now();
+        var jit = UtilMethods.guid();
+        var claimSet = JwtClaimsSet.builder()
+                .id(jit)
                 .issuer(issuerApp)
                 .issuedAt(now)
                 .expiresAt(now.plus(refreshTokenExpiryDays, ChronoUnit.DAYS))
@@ -40,7 +49,7 @@ public class UserToJwtRefreshTokenClaimSetConverter implements Converter<Authent
                 .audience(Collections.singletonList(AUTHORIZATION_SERVER))
                 .claim(SCOPE, authorityToScopeConverter.convert(user.getGrantedAuthorities()))
                 .build();
-
-
+        String token = refreshTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
+        return new TokenModel(jit, token);
     }
 }

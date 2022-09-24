@@ -4,16 +4,12 @@ import com.initgrep.cr.msauth.auth.dto.RegisterModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.entity.AppUser;
 import com.initgrep.cr.msauth.auth.entity.Role;
-import com.initgrep.cr.msauth.base.entity.UserAccount;
+import com.initgrep.cr.msauth.auth.entity.UserAccount;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.initgrep.cr.msauth.auth.util.UtilMethods.*;
-import static java.util.Objects.*;
 
 public final class UserMapper {
 

@@ -1,59 +1,44 @@
 package com.initgrep.cr.msauth.config.security;
 
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.dto.UserModel;
-import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtAccessTokenClaimSetConverter;
-import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtRefreshTokenClaimSetConverter;
+import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
+import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtAccessTokenConverter;
+import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtRefreshTokenConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
 
-import static com.initgrep.cr.msauth.auth.constants.AuthConstants.INVALID_APP_TOKEN;
-
 @Component
 public class TokenGenerator {
 
     @Autowired
-    JwtEncoder accessTokenEncoder;
+    UserToJwtAccessTokenConverter userToJwtAccessTokenConverter;
 
     @Autowired
-    @Qualifier("jwtRefreshTokenEncoder")
-    JwtEncoder refreshTokenEncoder;
+    UserToJwtRefreshTokenConverter userToJwtRefreshTokenConverter;
 
-    @Autowired
-    UserToJwtAccessTokenClaimSetConverter userToJwtAccessTokenClaimSetConverter;
-
-    @Autowired
-    UserToJwtRefreshTokenClaimSetConverter userToJwtRefreshTokenClaimSetConverter;
     @Value("${app.refresh-token.min-renewal-days}")
     private int refreshTokenMinRenewalDays;
 
 
-    public TokenModel createToken(Authentication authentication) {
-        throwIfNotAppUser(authentication);
-        TokenModel tokenModel = new TokenModel();
-        tokenModel.setAccessToken(createAccessToken(authentication));
-        tokenModel.setRefreshToken(resolveRefreshTokenAgainstExpiry(authentication));
-        return tokenModel;
+    public InternalTokenModel createToken(Authentication authentication) {
+        var accessToken = userToJwtAccessTokenConverter.convert(authentication);
+        var refreshToken = resolveRefreshTokenAgainstExpiry(authentication);
+        return new InternalTokenModel(accessToken, refreshToken);
     }
 
-    private String resolveRefreshTokenAgainstExpiry(Authentication authentication) {
+    private TokenModel resolveRefreshTokenAgainstExpiry(Authentication authentication) {
         if (shouldIssueFreshRefreshToken(authentication)) {
-            return createRefreshToken(authentication);
-        } else {
-            Jwt jwt = (Jwt) authentication.getCredentials();
-            return jwt.getTokenValue();
+            return userToJwtRefreshTokenConverter.convert(authentication);
         }
+        Jwt jwt = (Jwt) authentication.getCredentials();
+        return new TokenModel(jwt.getId(), jwt.getTokenValue());
+
     }
 
     private boolean shouldIssueFreshRefreshToken(Authentication authentication) {
@@ -65,19 +50,4 @@ public class TokenGenerator {
         return days < refreshTokenMinRenewalDays;
     }
 
-    private void throwIfNotAppUser(Authentication authentication) {
-        if (!(authentication.getPrincipal() instanceof UserModel)) {
-            throw new BadCredentialsException(INVALID_APP_TOKEN);
-        }
-    }
-
-    private String createAccessToken(Authentication authentication) {
-        JwtClaimsSet claimSet = userToJwtAccessTokenClaimSetConverter.convert(authentication);
-        return accessTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
-    }
-
-    private String createRefreshToken(Authentication authentication) {
-        JwtClaimsSet claimSet = userToJwtRefreshTokenClaimSetConverter.convert(authentication);
-        return refreshTokenEncoder.encode(JwtEncoderParameters.from(claimSet)).getTokenValue();
-    }
 }

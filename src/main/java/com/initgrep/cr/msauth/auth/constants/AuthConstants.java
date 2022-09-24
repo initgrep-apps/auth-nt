@@ -10,6 +10,8 @@ public final class AuthConstants {
 
     public static final String SPACE = " ";
 
+    public static final String BEARER = "Bearer";
+
     private AuthConstants() {
     }
 }

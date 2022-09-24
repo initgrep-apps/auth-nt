@@ -2,7 +2,6 @@ package com.initgrep.cr.msauth.auth.entity;
 
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
 import com.initgrep.cr.msauth.base.entity.BaseAuditEntity;
-import com.initgrep.cr.msauth.base.entity.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;

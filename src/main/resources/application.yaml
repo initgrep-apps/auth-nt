@@ -5,6 +5,9 @@ server:
 spring:
   application:
     name: auth
+  #prod profile is active
+  profiles:
+    active: dev
   datasource:
     url: ${POSTGRES_DB_PATH}
     username: ${POSTGRES_DB_USERNAME}
@@ -18,9 +21,7 @@ spring:
     format-sql: true
   cache:
     type: none
-  #prod profile is active
-  profiles:
-    active: dev
+
 
 access-token:
   public: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
