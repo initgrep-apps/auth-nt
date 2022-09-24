@@ -1,8 +1,6 @@
 package com.initgrep.cr.msauth.auth.service.impl;
 
 import com.initgrep.cr.msauth.auth.dto.UserModel;
-import com.initgrep.cr.msauth.auth.entity.AppUser;
-import com.initgrep.cr.msauth.auth.entity.Role;
 import com.initgrep.cr.msauth.auth.exception.UserExistsException;
 import com.initgrep.cr.msauth.auth.repository.RoleRepository;
 import com.initgrep.cr.msauth.auth.repository.UserRepository;
@@ -29,7 +27,7 @@ public class AuthUserDetailsManager implements AppUserDetailsManager {
 
     @Override
     public UserModel createUser(UserModel user) {
-        throwIfUserExistsByEmail(user.getEmail());
+        throwIfExistingUser(user);
         var appUser = UserMapper.toEntityWithAccountEnabled(user);
         var roleUser = roleRepository.findByName("user");
         appUser.setRoles(Collections.singleton(roleUser));
@@ -66,8 +64,8 @@ public class AuthUserDetailsManager implements AppUserDetailsManager {
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND)));
     }
 
-    private void throwIfUserExistsByEmail(String email) {
-        if (userRepository.existsByEmail(email)) {
+    private void throwIfExistingUser(UserModel userModel) {
+        if (userRepository.existsByEmail(userModel.getEmail()) || userRepository.existsByPhoneNumber(userModel.getPhoneNumber()) ) {
             throw new UserExistsException(USER_ALREADY_EXIST);
         }
     }
