@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Set;
 
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.USER_ALREADY_EXIST;
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.USER_NOT_FOUND;
@@ -30,7 +31,7 @@ public class AuthUserDetailsManager implements AppUserDetailsManager {
         throwIfExistingUser(user);
         var appUser = UserMapper.toEntityWithAccountEnabled(user);
         var roleUser = roleRepository.findByName("user");
-        appUser.setRoles(Collections.singleton(roleUser));
+        appUser.setRoles(Set.of(roleUser));
         appUser = userRepository.save(appUser);
         return UserMapper.fromEntity(appUser);
     }
