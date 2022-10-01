@@ -5,7 +5,7 @@ server:
 spring:
   application:
     name: auth
-  datasource:
-    url: jdbc:postgresql://localhost:5432/cr_dev_01
-    username: postgres
-    password: password
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/cr_dev_01
+#    username: postgres
+#    password: password
