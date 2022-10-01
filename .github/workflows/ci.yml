@@ -2,7 +2,7 @@ name: ms-auth-ci
 run-name: ${{ github.actor }} triggered the action
 on: [push]
 jobs:
-  test-repo:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
