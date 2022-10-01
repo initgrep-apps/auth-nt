@@ -1,4 +1,4 @@
-name: java-build-action
+name: ms-auth-ci
 run-name: ${{ github.actor }} triggered the action
 on: [push]
 jobs:
