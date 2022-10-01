@@ -10,6 +10,5 @@ jobs:
         with:
            distribution: 'temurin' # See 'Supported distributions' for available options
            java-version: '11'
-           cache: 'maven'
       - name: run maven tests
         run: mvn clean test
