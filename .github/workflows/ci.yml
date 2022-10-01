@@ -1,6 +1,6 @@
 name: ms-auth-ci
 run-name: ${{ github.actor }} triggered the action
-on: [push]
+on: [pull_request]
 jobs:
   test:
     runs-on: ubuntu-22.04
