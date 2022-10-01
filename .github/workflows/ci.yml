@@ -1,0 +1,17 @@
+name: Build
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
+jobs:
+  build-analysis:
+    uses: ./.github/workflows/analysis.yml
+    secrets: inherit
+
+  build-test:
+    uses: ./.github/workflows/test.yml

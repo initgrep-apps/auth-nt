@@ -1,0 +1,10 @@
+version: v1.22.1
+ignore:
+  'SNYK-JAVA-ORGYAML-2806360':
+    - '* > org.yaml:snakeyaml':
+        reason: 'Fix not available yet'
+        expires: '2022-12-01T00:00:00.000Z'
+  'SNYK-JAVA-COMH2DATABASE-31685':
+    - '* > com.h2database:h2':
+        reason: 'Fix not available yet'
+        expires: '2022-12-01T00:00:00.000Z'
