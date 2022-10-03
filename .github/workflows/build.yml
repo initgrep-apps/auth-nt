@@ -1,6 +1,6 @@
 name: ms-auth-ci
 run-name: ${{ github.actor }} triggered the action
-on: [ pull_request ]
+on: [ push, pull_request ]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
           echo "branches = ${{ steps.jacoco.outputs.branches }}"
 
       - name: Commit and push the coverage badges and summary file
-#        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         run: |
           cd badges
           if [[ `git status --porcelain *.svg *.json` ]]; then
