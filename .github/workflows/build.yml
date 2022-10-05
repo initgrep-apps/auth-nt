@@ -1,6 +1,6 @@
 name: ms-auth-ci
-run-name: Build checks triggered by user::(${{ github.actor }}) for event::[${{ github.event_name }}]
-on: [ push, pull_request ]
+run-name: Build check triggered by user::(${{ github.actor }}) for event::[${{ github.event_name }}]
+on: [ push ]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -54,3 +54,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-11@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            args: --severity-threshold=high
