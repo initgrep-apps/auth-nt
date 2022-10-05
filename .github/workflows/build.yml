@@ -1,5 +1,5 @@
 name: ms-auth-ci
-run-name: Build check triggered by user::(${{ github.actor }}) for event::[${{ github.event_name }}]
+run-name: build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 on: [ push ]
 jobs:
   test:
@@ -53,7 +53,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
   security:
     name: snyk vulnerability scan
     runs-on: ubuntu-latest
@@ -68,15 +67,15 @@ jobs:
 
   code_analysis:
     name: SonarQube code analysis
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checking out
-        uses: actions/checkout@v3
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.2.0
-        with:
-          host: ${{ secrets.SONARQUBE_HOST }}
-          login: ${{ secrets.SONARQUBE_TOKEN }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checking out
+#        uses: actions/checkout@v3
+#        with:
+#          # Disabling shallow clone is recommended for improving relevancy of reporting
+#          fetch-depth: 0
+#      - name: SonarQube Scan
+#        uses: kitabisa/sonarqube-action@v1.2.0
+#        with:
+#          host: ${{ secrets.SONARQUBE_HOST }}
+#          login: ${{ secrets.SONARQUBE_TOKEN }}
