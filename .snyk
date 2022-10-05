@@ -1,0 +1,6 @@
+version: v1.0.0
+ignore:
+  'SNYK-JAVA-ORGYAML-2806360':
+    - '* > org.yaml:snakeyaml':
+        reason: 'Fix not available yet'
+        expires: '2022-12-01T00:00:00.000Z'
