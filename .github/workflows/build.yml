@@ -66,7 +66,7 @@ jobs:
           args: --severity-threshold=high
 
   code_analysis:
-    name: SonarQube Trigger
+    name: SonarQube code analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checking out
