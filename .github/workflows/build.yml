@@ -1,5 +1,5 @@
 name: ms-auth-ci
-run-name: Build checks triggered by ${{ github.actor }} for event ${{ github.event_name }}
+run-name: Build checks triggered by user::(${{ github.actor }}) for event::[${{ github.event_name }}]
 on: [ push, pull_request ]
 jobs:
   test:
