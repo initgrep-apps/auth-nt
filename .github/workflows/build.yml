@@ -1,13 +1,14 @@
+name: build check pre-push
+run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 on:
   pull_request:
     branches:
-      - main
+      - 'release-**'
     types:
       - opened
       - reopened
       - synchronize
-name: pull request analysis
-run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
+
 jobs:
   test:
     runs-on: ubuntu-latest
