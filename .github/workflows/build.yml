@@ -67,7 +67,7 @@ jobs:
 
   code_analysis:
     name: SonarQube code analysis
-#    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checking out
 #        uses: actions/checkout@v3
