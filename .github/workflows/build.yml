@@ -1,5 +1,5 @@
 name: ms-auth-ci
-run-name: build by (${{ github.actor }}) Event - [${{ github.event_name }}]
+run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 on: [ push ]
 jobs:
   test:
