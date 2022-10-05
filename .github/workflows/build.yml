@@ -1,6 +1,13 @@
-name: ms-auth-ci
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+name: pull request analysis
 run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
-on: [ push ]
 jobs:
   test:
     runs-on: ubuntu-latest
