@@ -2,13 +2,6 @@ on:
   push:
     branches:
       - 'release-**'
-  pull_request:
-    branches:
-      - 'release-**'
-    types:
-      - opened
-      - reopened
-      - synchronize
 run-name: Release by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Create Release Tag
 jobs:
@@ -96,7 +89,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
-          release_branches: release_*
+          release_branches: release-*
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
