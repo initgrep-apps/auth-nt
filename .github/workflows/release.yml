@@ -96,9 +96,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
-          append_to_pre_release_tag: ''
           create_annotated_tag: true
-          release_branches: master,main,release_*
+          release_branches: release_*
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
