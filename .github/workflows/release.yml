@@ -2,6 +2,13 @@ on:
   push:
     branches:
       - 'release-**'
+  pull_request:
+    branches:
+      - 'release-**'
+    types:
+      - opened
+      - reopened
+      - synchronize
 run-name: Release by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Create Release Tag
 jobs:
