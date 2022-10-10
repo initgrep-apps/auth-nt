@@ -1,3 +1,4 @@
+name: Release and Tag
 on:
   workflow_call:
 jobs:
