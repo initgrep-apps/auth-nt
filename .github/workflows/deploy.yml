@@ -6,10 +6,10 @@ on:
         type: string
 jobs:
   deploy:
-    name:  ${{inputs.environment-name}}
+    name: Deployment in ${{inputs.environment-name}}
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "development not implemented yet"
+          echo "Deployment done in ${{inputs.environment-name}}"
 
 
