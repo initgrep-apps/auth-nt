@@ -18,12 +18,9 @@ jobs:
     uses: ./.github/workflows/release-tag.yml
     needs:
       - test
-      - analysis
-#
-#  deploy:
-#    uses: ./.github/workflows/deploy.yml
-#    needs:
-#      - test
-#      - analysis
-#      - release-tag
+    
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    needs:
+      - release-tag
 
