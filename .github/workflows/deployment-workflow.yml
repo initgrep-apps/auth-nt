@@ -20,9 +20,12 @@ jobs:
       - test
 
   deploy:
+    strategy:
+      matrix:
+        target: [ dev, sit, uat, prod ]
     uses: ./.github/workflows/deploy.yml
     with:
-      environment-name: "Development"
+      target-environment: ${{ matrix.target }}
     needs:
       - release-tag
 
