@@ -1,12 +1,14 @@
 on:
   push:
     branches:
-      - 'release-**'
-run-name: Release by (${{ github.actor }}) Event - [${{ github.event_name }}]
+      - main
+run-name: Deploy by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Create Release Tag
 jobs:
   build:
-    uses: common.yml@main
+    uses: ./.github/workflows/common.yml
+    secrets: inherit
+    
   tag-and-release:
     name: create release tag
     runs-on: ubuntu-latest
@@ -22,7 +24,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
-          release_branches: release-*
+          release_branches: main
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
@@ -30,6 +32,12 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
 
+  deploy:
+    needs:
+      tag-and-release
+    steps:
+      - run: |
+          echo "deployment not implemented yet"
 
 
 
