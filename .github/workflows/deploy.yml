@@ -8,6 +8,7 @@ jobs:
   deploy:
     name: Deployment in ${{inputs.target-environment}}
     runs-on: ubuntu-latest
+    if: inputs.target-environment == 'dev'
     steps:
       - run: |
           echo "Deployment done in ${{inputs.target-environment}}"
