@@ -1,0 +1,11 @@
+on:
+  workflow_call:
+jobs:
+  deploy:
+    name: deploy in development, staging and uat environments
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "development not implemented yet"
+
+
