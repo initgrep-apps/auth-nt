@@ -12,3 +12,12 @@ jobs:
  build:
    uses: ./.github/workflows/common.yml
    secrets: inherit
+ example1:
+   runs-on: ubuntu-latest
+   needs:
+     - test
+     - security
+     - analysis
+   steps:
+     - run: |
+         echo "Running example1"
