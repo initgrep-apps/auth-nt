@@ -10,7 +10,7 @@ run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Pull Request Checks
 jobs:
   test:
-    uses: ./.github/workflows/reusable/test.yml
+    uses: ./.github/workflows/test.yml
   analysis:
-    uses: ./.github/workflows/reusable/analysis.yml
+    uses: ./.github/workflows/analysis.yml
     secrets: inherit
