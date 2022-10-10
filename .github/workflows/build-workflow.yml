@@ -9,6 +9,8 @@ on:
 run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Pull Request Checks
 jobs:
- build:
-   uses: ./.github/workflows/common.yml
-   secrets: inherit
+  test:
+    uses: ./.github/workflows/test.yml
+  analysis:
+    uses: ./.github/workflows/analysis.yml
+    secrets: inherit
