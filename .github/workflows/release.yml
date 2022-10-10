@@ -6,7 +6,7 @@ run-name: Release by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Create Release Tag
 jobs:
   build:
-    uses: .github/workflows/common.yml@main
+    uses: ./.github/workflows/common.yml@main
   tag-and-release:
     name: create release tag
     runs-on: ubuntu-latest
