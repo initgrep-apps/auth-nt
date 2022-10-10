@@ -1,9 +1,9 @@
 
  ## Build Status
  
-| build status | coverage                         |
-|--------------|----------------------------------|
-|  [![ms-auth-ci](https://github.com/CourierMgmt/auth-ms/actions/workflows/build.yml/badge.svg)](https://github.com/CourierMgmt/auth-ms/actions/workflows/build.yml)            | ![Alt text](./badges/jacoco.svg) |          |
+| Build Status | Publish Status | coverage                         |
+|--------------|----------------|------------------|
+|  [![Build](https://github.com/CourierMgmt/auth-ms/actions/workflows/build-workflow.yml/badge.svg)](https://github.com/CourierMgmt/auth-ms/actions/workflows/build-workflow.yml)           | [![Publish](https://github.com/CourierMgmt/auth-ms/actions/workflows/publish-workflow.yml/badge.svg)](https://github.com/CourierMgmt/auth-ms/actions/workflows/publish-workflow.yml) | ![Alt text](./badges/jacoco.svg) |          |
 ---
 
 ---
