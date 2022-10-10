@@ -1,8 +1,12 @@
 on:
   workflow_call:
+    inputs:
+      environment-name:
+        required: true
+        type: string
 jobs:
   deploy:
-    name: deploy in development, staging and uat environments
+    name:  ${{inputs.environment-name}}
     runs-on: ubuntu-latest
     steps:
       - run: |

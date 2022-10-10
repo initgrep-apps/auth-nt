@@ -21,6 +21,8 @@ jobs:
 
   deploy:
     uses: ./.github/workflows/deploy.yml
+    with:
+      environment-name: "Development"
     needs:
       - release-tag
 
