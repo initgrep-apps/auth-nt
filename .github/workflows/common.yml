@@ -56,7 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   security:
-    name: snyk vulnerability scan
+    name: Vulnerability Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -68,7 +68,7 @@ jobs:
           args: --severity-threshold=high
 
   analysis:
-    name: SonarQube code analysis
+    name: Code Analysis
     runs-on: ubuntu-latest
     steps:
       - run: |
