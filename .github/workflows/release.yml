@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - 'release-**'
+      - main
 run-name: Release by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Create Release Tag
 jobs:
@@ -22,7 +22,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           dry_run: true
-          release_branches: release-*
+          release_branches: main
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
