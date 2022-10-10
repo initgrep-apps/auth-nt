@@ -14,11 +14,11 @@ jobs:
     needs:
       - analysis
 
-#  release-tag:
-#    uses: ./.github/workflows/release-tag.yml
-#    needs:
-#      - test
-#      - analysis
+  release-tag:
+    uses: ./.github/workflows/release-tag.yml
+    needs:
+      - test
+      - analysis
 #
 #  deploy:
 #    uses: ./.github/workflows/deploy.yml
