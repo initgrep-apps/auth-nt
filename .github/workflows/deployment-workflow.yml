@@ -22,5 +22,5 @@ jobs:
   deploy:
     uses: ./.github/workflows/deploy.yml
     needs:
-      - test
+      - release-tag
 
