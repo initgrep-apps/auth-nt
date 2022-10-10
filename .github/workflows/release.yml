@@ -7,6 +7,8 @@ name: Create Release Tag
 jobs:
   build:
     uses: ./.github/workflows/common.yml
+    secrets: inherit
+    
   tag-and-release:
     name: create release tag
     runs-on: ubuntu-latest
