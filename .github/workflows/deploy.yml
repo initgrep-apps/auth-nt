@@ -33,6 +33,8 @@ jobs:
           body: ${{ steps.tag_version.outputs.changelog }}
 
   deploy:
+    name: Deploy to dev, staging and uat environments
+    runs-on: ubuntu-latest
     needs:
       tag-and-release
     steps:
