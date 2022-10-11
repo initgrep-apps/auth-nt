@@ -2,6 +2,28 @@ name: Test
 on:
   workflow_call:
 jobs:
+  # Label of the container job
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:10.18-jessie
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: password
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -13,6 +35,10 @@ jobs:
           java-version: '11'
       - name: run maven tests
         run: mvn -B clean test
+        env:
+          POSTGRES_DB_PATH: "jdbc:postgresql://localhost:5432/postgres"
+          POSTGRES_DB_USERNAME: "postgres"
+          POSTGRES_DB_PASSWORD: "password"
       - name: Generate Jacoco Badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
