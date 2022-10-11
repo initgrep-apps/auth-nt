@@ -7,7 +7,7 @@ spring:
     name: auth
   #prod profile is active
   profiles:
-    active: dev
+    active: ${ACTIVE_PROFILE}
   datasource:
     url: ${POSTGRES_DB_PATH}
     username: ${POSTGRES_DB_USERNAME}
