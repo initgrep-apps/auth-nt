@@ -12,12 +12,12 @@ jobs:
   publish-test:
     uses: ./.github/workflows/test.yml
     needs:
-      - analysis
+      - publish-analysis
 
   release-tag:
     uses: ./.github/workflows/release-tag.yml
     needs:
-      - test
+      - publish-test
 
   deployment:
     strategy:
