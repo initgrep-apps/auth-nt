@@ -1,3 +1,4 @@
+name: Analysis
 on:
   workflow_call:
     secrets:
