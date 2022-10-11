@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "code analysis not implemented yet"
+          echo "Code Analysis has not been implemented yet"
     
 
 

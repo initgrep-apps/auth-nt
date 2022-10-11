@@ -5,11 +5,11 @@ on:
 run-name: Publish by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Publish
 jobs:
-  analysis:
+  publish-analysis:
     uses: ./.github/workflows/analysis.yml
     secrets: inherit
 
-  test:
+  publish-test:
     uses: ./.github/workflows/test.yml
     needs:
       - analysis
