@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - main
+run-name: Publish by (${{ github.actor }}) Event - [${{ github.event_name }}]
+name: Publish
+jobs:
+  publish-analysis:
+    uses: ./.github/workflows/analysis.yml
+    secrets: inherit
+
+  publish-test:
+    uses: ./.github/workflows/test.yml
+    needs:
+      - publish-analysis
+
+  release-tag:
+    uses: ./.github/workflows/release-tag.yml
+    needs:
+      - publish-test
+
+  deployment:
+    strategy:
+      matrix:
+        target: [ dev, sit, uat, prod ]
+    uses: ./.github/workflows/deployment.yml
+    with:
+      target-environment: ${{ matrix.target }}
+    needs:
+      - release-tag
+

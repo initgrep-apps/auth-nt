@@ -1,0 +1,28 @@
+name: Analysis
+on:
+  workflow_call:
+    secrets:
+      SNYK_TOKEN:
+        required: true
+jobs:
+  security:
+    name: Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-11@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  analysis:
+    name: Code Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Code Analysis has not been implemented yet"
+    
+
+

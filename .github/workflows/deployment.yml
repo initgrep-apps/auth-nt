@@ -1,0 +1,17 @@
+name: Deployment
+on:
+  workflow_call:
+    inputs:
+      target-environment:
+        required: true
+        type: string
+jobs:
+  deployment:
+    name: Deployment in ${{inputs.target-environment}}
+    environment: ${{inputs.target-environment}}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Deployment done in ${{inputs.target-environment}}"
+
+

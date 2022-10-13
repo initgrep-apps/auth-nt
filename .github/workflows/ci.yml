@@ -1,15 +1,17 @@
-name: java-build-action
-run-name: ${{ github.actor }} triggered the action
-on: [push]
+name: Build
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 jobs:
-  test-repo:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-           distribution: 'temurin' # See 'Supported distributions' for available options
-           java-version: '11'
-           cache: 'maven'
-      - name: run maven tests
-        run: mvn clean test
+  build-analysis:
+    uses: ./.github/workflows/analysis.yml
+    secrets: inherit
+
+  build-test:
+    uses: ./.github/workflows/test.yml
