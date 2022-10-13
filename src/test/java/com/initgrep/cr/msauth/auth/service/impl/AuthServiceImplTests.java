@@ -44,7 +44,7 @@ import static org.mockito.Mockito.when;
     @Test
     void testRegister(){
         RegisterModel registerModel = new RegisterModel();
-        registerModel.setEmail("test@email.com");
+        registerModel.setEmail("test@emails.com");
         registerModel.setPassword("somePassword");
         registerModel.setFullName("some fullname");
         registerModel.setOtpInfo(new OtpInfoModel());
