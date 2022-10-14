@@ -8,6 +8,7 @@ jobs:
     permissions:
       actions: write
       pull-requests: write
+      repository-projects: write
     services:
       postgres:
         image: postgres
