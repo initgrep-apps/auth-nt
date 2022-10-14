@@ -5,6 +5,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      pull-requests: write
     services:
       postgres:
         image: postgres
