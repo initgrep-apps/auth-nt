@@ -72,13 +72,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public DaoAuthenticationProvider daoAuthenticationProvider(@Autowired UserDetailsManager userDetailsManager) {
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        daoAuthenticationProvider.setUserDetailsService(userDetailsManager);
-//        return daoAuthenticationProvider;
-//    }
+    
 
 }

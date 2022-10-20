@@ -1,6 +1,6 @@
 package com.initgrep.cr.msauth.auth.entity;
 
-import com.initgrep.cr.msauth.base.entity.BaseAuditEntity;
+import com.initgrep.cr.msauth.auth.entity.audit.BaseAuditEntity;
 import lombok.Getter;
 import lombok.Setter;
 

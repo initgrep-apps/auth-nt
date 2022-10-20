@@ -32,7 +32,8 @@ public class WebSecurity {
                 .exceptionHandling()
                 .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                .and().build();
+                .and()
+                .build();
     }
 
 }

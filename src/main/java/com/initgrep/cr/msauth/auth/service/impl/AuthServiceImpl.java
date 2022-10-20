@@ -1,43 +1,34 @@
 package com.initgrep.cr.msauth.auth.service.impl;
 
 import com.initgrep.cr.msauth.auth.dto.*;
-import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.auth.service.TokenService;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service
 @Slf4j
+@RequiredArgsConstructor
+@Service
 public class AuthServiceImpl implements AuthService {
-
-    @Autowired
-    private AppUserDetailsManager userDetailsService;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private OptionalPasswordDaoAuthenticationProvider optionalPasswordDaoAuthenticationProvider;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
+    private final AppUserDetailsManager userDetailsService;
+    private final TokenService tokenService;
+    @Qualifier("OptionalPasswordDaoAuthenticationProvider")
+    private final AuthenticationProvider optionalPasswordDaoAuthenticationProvider;
+    private final PasswordEncoder passwordEncoder;
     @Qualifier("jwtRefreshTokenAuthenticationProvider")
-    private JwtAuthenticationProvider refreshTokenAuthProvider;
+    private final AuthenticationProvider refreshTokenAuthProvider;
 
     @Transactional
     @Override

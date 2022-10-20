@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.base.entity;
+package com.initgrep.cr.msauth.auth.entity.audit;
 
 
 import lombok.Getter;

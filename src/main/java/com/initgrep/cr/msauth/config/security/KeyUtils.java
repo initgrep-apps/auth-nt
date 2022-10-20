@@ -42,6 +42,22 @@ public class KeyUtils {
     private KeyPair accessTokenKeyPair;
     private KeyPair refreshTokenKeyPair;
 
+    public RSAPublicKey getAccessTokenPublicKey() {
+        return (RSAPublicKey) getAccessTokenKeyPair().getPublic();
+    }
+
+    public RSAPrivateKey getAccessTokenPrivateKey() {
+        return (RSAPrivateKey) getAccessTokenKeyPair().getPrivate();
+    }
+
+    public RSAPublicKey getRefreshTokenPublicKey() {
+        return (RSAPublicKey) getRefreshTokenKeyPair().getPublic();
+    }
+
+    public RSAPrivateKey getRefreshTokenPrivateKey() {
+        return (RSAPrivateKey) getRefreshTokenKeyPair().getPrivate();
+    }
+
     private KeyPair getAccessTokenKeyPair() {
         if (Objects.isNull(accessTokenKeyPair)) {
             accessTokenKeyPair = getKeyPair(accessTokenPublicKeyPath, accessTokenPrivateKeyPath);
@@ -111,19 +127,5 @@ public class KeyUtils {
         return keyPair;
     }
 
-    public RSAPublicKey getAccessTokenPublicKey() {
-        return (RSAPublicKey) getAccessTokenKeyPair().getPublic();
-    }
 
-    public RSAPrivateKey getAccessTokenPrivateKey() {
-        return (RSAPrivateKey) getAccessTokenKeyPair().getPrivate();
-    }
-
-    public RSAPublicKey getRefreshTokenPublicKey() {
-        return (RSAPublicKey) getRefreshTokenKeyPair().getPublic();
-    }
-
-    public RSAPrivateKey getRefreshTokenPrivateKey() {
-        return (RSAPrivateKey) getRefreshTokenKeyPair().getPrivate();
-    }
 }

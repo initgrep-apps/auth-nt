@@ -4,6 +4,7 @@ import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,9 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 
-@Component
 @Slf4j
-public class OptionalPasswordDaoAuthenticationProvider extends DaoAuthenticationProvider {
+@Component
+@Qualifier("OptionalPasswordDaoAuthenticationProvider")
+public final class OptionalPasswordDaoAuthenticationProvider extends DaoAuthenticationProvider {
 
 
     @Autowired

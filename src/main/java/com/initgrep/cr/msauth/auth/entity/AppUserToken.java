@@ -1,7 +1,7 @@
 package com.initgrep.cr.msauth.auth.entity;
 
 import com.initgrep.cr.msauth.auth.constants.TokenType;
-import com.initgrep.cr.msauth.base.entity.BaseAuditEntity;
+import com.initgrep.cr.msauth.auth.entity.audit.BaseAuditEntity;
 import lombok.*;
 
 import javax.persistence.*;
