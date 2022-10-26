@@ -1,7 +1,6 @@
 package com.initgrep.cr.msauth.auth.service.impl;
 
 import com.initgrep.cr.msauth.auth.dto.*;
-import com.initgrep.cr.msauth.auth.providers.OptionalPasswordDaoAuthenticationProvider;
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.service.TokenService;
 import org.assertj.core.api.Assertions;
@@ -21,7 +20,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 

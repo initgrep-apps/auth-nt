@@ -1,3 +1,21 @@
+spring:
+  profiles:
+    active: test
+
+app:
+  key-pair:
+    dir: token-keys
+  access-token:
+    public-path: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
+    private-path: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
+    expiry-duration-min: ${APP_ACCESS_TOKEN_EXPIRY_DURATION_MIN}
+  refresh-token:
+    public-path: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
+    private-path: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
+    expiry-duration-days: ${APP_REFRESH_TOKEN_EXPIRY_DURATION_DAYS}
+    min-renewal-days: ${APP_REFRESH_TOKEN_MIN_RENEWAL_DAYS}
+
+
 POSTGRES_DB_PATH: "jdbc:postgresql://localhost:5432/cr_dev_01"
 POSTGRES_DB_USERNAME: "postgres"
 POSTGRES_DB_PASSWORD: "password"

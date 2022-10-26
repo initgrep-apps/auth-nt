@@ -1,5 +1,6 @@
 package com.initgrep.cr.msauth.config.security;
 
+import com.initgrep.cr.msauth.auth.exception.KeyPairGenerationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +40,9 @@ class KeyGenerator {
 
     @Value("${app.key-pair.dir}")
     private String keyPairDir;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfiles;
     private KeyPair accessTokenKeyPair;
     private KeyPair refreshTokenKeyPair;
 
@@ -57,7 +61,14 @@ class KeyGenerator {
         File accessTokenPrivateKeyFile = new File(accessTokenPrivateKeyPath);
         File refreshTokenPublicKeyFile = new File(refreshTokenPublicKeyPath);
         File refreshTokenPrivateKeyFile = new File(refreshTokenPrivateKeyPath);
+        createTokenDirectoryIfNotExist();
+        generateKeyPairIfNotExist(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
+        generateKeyPairIfNotExist(refreshTokenPublicKeyFile, refreshTokenPrivateKeyFile);
+        accessTokenKeyPair = assignKeyPair(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
+        refreshTokenKeyPair = assignKeyPair(refreshTokenPublicKeyFile, refreshTokenPrivateKeyFile);
+    }
 
+    private void createTokenDirectoryIfNotExist() {
         File directory = new File(keyPairDir);
         if (!directory.exists()) {
             log.debug("keypair dir does not exist");
@@ -69,10 +80,6 @@ class KeyGenerator {
             }
 
         }
-        generateKeyPair(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
-        generateKeyPair(refreshTokenPublicKeyFile, refreshTokenPrivateKeyFile);
-        accessTokenKeyPair = assignKeyPair(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
-        refreshTokenKeyPair = assignKeyPair(refreshTokenPublicKeyFile, refreshTokenPrivateKeyFile);
     }
 
 
@@ -91,14 +98,14 @@ class KeyGenerator {
             return new KeyPair(publicKey, privateKey);
 
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | IOException e) {
-            throw new RuntimeException(e);
+            throw new KeyPairGenerationException(e);
         }
 
     }
 
-    private void generateKeyPair(File publicKeyFile, File privateKeyFile) {
+    private void generateKeyPairIfNotExist(File publicKeyFile, File privateKeyFile) {
         boolean keyPairExist = publicKeyFile.exists() && privateKeyFile.exists();
-        boolean isProdEnv = List.of(environment.getActiveProfiles()).contains("prod");
+        boolean isProdEnv = activeProfiles.contains("prod");
 
         if (keyPairExist || isProdEnv) {
             log.debug("Key pair can not be generated for reasons :: prod env or key pair already exist");
@@ -121,7 +128,7 @@ class KeyGenerator {
             }
 
         } catch (NoSuchAlgorithmException | IOException e) {
-            throw new RuntimeException(e);
+            throw new KeyPairGenerationException(e);
         }
     }
 }
