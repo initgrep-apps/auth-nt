@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.config.security;
+package com.initgrep.cr.msauth.security.config;
 
 import com.initgrep.cr.msauth.auth.providers.converter.JwtToUserConverter;
 import org.springframework.context.annotation.Bean;

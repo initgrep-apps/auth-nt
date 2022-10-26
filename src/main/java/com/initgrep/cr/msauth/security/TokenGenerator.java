@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.config.security;
+package com.initgrep.cr.msauth.security;
 
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;

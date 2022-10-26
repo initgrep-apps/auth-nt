@@ -1,6 +1,7 @@
-package com.initgrep.cr.msauth.config.security;
+package com.initgrep.cr.msauth.security.config;
 
 import com.initgrep.cr.msauth.auth.providers.converter.JwtToUserConverter;
+import com.initgrep.cr.msauth.security.KeyManager;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -24,7 +25,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 public class SecurityConfig {
 
     @Autowired
-    private KeyUtils keyUtils;
+    private KeyManager keyUtils;
 
     @Bean
     @Primary

@@ -7,11 +7,10 @@ import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.entity.AppUserToken;
 import com.initgrep.cr.msauth.auth.repository.AppUserTokenRepository;
 import com.initgrep.cr.msauth.auth.service.TokenService;
-import com.initgrep.cr.msauth.config.security.TokenGenerator;
+import com.initgrep.cr.msauth.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
