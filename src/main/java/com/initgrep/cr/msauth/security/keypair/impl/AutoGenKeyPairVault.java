@@ -55,12 +55,12 @@ class AutoGenKeyPairVault extends AbstractKeyPairVault {
     }
 
     private void createTokenDirectoryIfNotExist() {
-        File directory = new File(appConfig.getKeyPair().getDirectory());
-        if (!directory.exists()) {
+        File keyDirectory = new File(appConfig.getKeyPair().getDirectory());
+        if (!keyDirectory.exists()) {
             log.debug("keypair dir does not exist");
-            boolean created = directory.mkdirs();
+            boolean created = keyDirectory.mkdirs();
             if (!created) {
-                log.debug("unable to create keypair  dir:: {} ", directory);
+                log.debug("unable to create keypair  dir:: {} ", keyDirectory);
             } else {
                 log.debug("keyPair dir created successfully");
             }
