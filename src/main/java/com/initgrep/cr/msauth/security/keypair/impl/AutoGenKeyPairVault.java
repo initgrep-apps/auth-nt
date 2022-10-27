@@ -64,7 +64,7 @@ class AutoGenKeyPairVault extends AbstractKeyPairVault {
     }
 
 
-    private void generateKeyPairIfNotExist(File publicKeyFile, File privateKeyFile) {
+     void generateKeyPairIfNotExist(File publicKeyFile, File privateKeyFile) {
         if ( publicKeyFile.exists() && privateKeyFile.exists()) {
             log.debug("KEY_PAIR_ALREADY_EXIST");
             return;

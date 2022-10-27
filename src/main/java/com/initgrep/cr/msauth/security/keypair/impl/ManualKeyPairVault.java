@@ -30,13 +30,13 @@ public class ManualKeyPairVault extends AbstractKeyPairVault{
     }
 
     @PostConstruct
-    public void createKeyPairsIfNotExist() {
+    public void readKeyPair() {
         File accessTokenPublicKeyFile = new File(appConfig.getAccessToken().getPublicKeyPath());
         File accessTokenPrivateKeyFile = new File(appConfig.getAccessToken().getPrivateKeyPath());
         accessTokenKeyPair = readKeyPairFromPath(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
 
         File refreshTokenPublicKeyFile = new File(appConfig.getRefreshToken().getPublicKeyPath());
-        File refreshTokenPrivateKeyFile = new File(appConfig.getRefreshToken().getPublicKeyPath());
+        File refreshTokenPrivateKeyFile = new File(appConfig.getRefreshToken().getPrivateKeyPath());
         refreshTokenKeyPair = readKeyPairFromPath(refreshTokenPublicKeyFile, refreshTokenPrivateKeyFile);
     }
 
