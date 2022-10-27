@@ -1,8 +1,10 @@
 package com.initgrep.cr.msauth.security.keypair.impl;
 
+import com.initgrep.cr.msauth.auth.exception.KeyPairGenerationException;
 import com.initgrep.cr.msauth.config.AppConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileAttribute;
 import java.security.KeyPair;
 import java.util.Objects;
 
@@ -56,17 +57,18 @@ class AutoGenKeyPairVaultTests {
 
     @AfterEach
     void cleanUp() throws IOException {
-        File keyDirectory = new File(appConfig.getKeyPair().getDirectory());
-        Path parentPath = Path.of(appConfig.getKeyPair().getDirectory());
-        if (keyDirectory.exists()) {
-            String[] subDirs = keyDirectory.list();
+        Path parentDirPath = Path.of(appConfig.getKeyPair().getDirectory());
+        File parentDir = new File(appConfig.getKeyPair().getDirectory());
+        if (Files.isDirectory(parentDirPath) && Files.exists(parentDirPath)) {
+            String[] subDirs = parentDir.list();
             if (Objects.nonNull(subDirs)) {
                 for (String subPath : subDirs) {
-                    Files.delete(parentPath.resolve(subPath));
+                    Files.delete(parentDirPath.resolve(subPath));
                 }
             }
+            Files.delete(parentDirPath);
         }
-        Files.delete(Path.of(appConfig.getKeyPair().getDirectory()));
+
     }
 
     @Test
@@ -84,6 +86,28 @@ class AutoGenKeyPairVaultTests {
         assertThat(accessTokenKeyPair).isNotNull();
     }
 
+    @Test
+    void testGetAccessTokenKeyPair_forException()  {
+        appConfig.getKeyPair().setDirectory("&@@##$$$");
+        Assertions.assertThrows(KeyPairGenerationException.class,
+                () -> keyPairVault.createKeyPairsIfNotExist());
+
+    }
+
+    @Test
+    void testGetAccessTokenKeyPair_forPublicKeyNotExist() throws IOException {
+        keyPairVault.createKeyPairsIfNotExist();
+        Files.delete(Path.of(appConfig.getAccessToken().getPublicKeyPath()));
+        KeyPair accessTokenKeyPair = keyPairVault.getAccessTokenKeyPair();
+        assertThat(accessTokenKeyPair).isNotNull();
+    }
+    @Test
+    void testGetAccessTokenKeyPair_forPrivateKeyNotExist() throws IOException {
+        keyPairVault.createKeyPairsIfNotExist();
+        Files.delete(Path.of(appConfig.getAccessToken().getPrivateKeyPath()));
+        KeyPair accessTokenKeyPair = keyPairVault.getAccessTokenKeyPair();
+        assertThat(accessTokenKeyPair).isNotNull();
+    }
     @Test
     void testGetRefreshTokenKeyPair() {
         keyPairVault.createKeyPairsIfNotExist();

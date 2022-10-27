@@ -59,29 +59,22 @@ class AutoGenKeyPairVault extends AbstractKeyPairVault {
         if (!keyDirectory.exists()) {
             log.debug("keypair dir does not exist");
             boolean created = keyDirectory.mkdirs();
-            if (!created) {
-                log.debug("unable to create keypair  dir:: {} ", keyDirectory);
-            } else {
-                log.debug("keyPair dir created successfully");
-            }
-
+            log.debug("KeyPair directory {} were created ? -- [{}] ", keyDirectory.getAbsoluteFile(), created);
         }
     }
 
 
     private void generateKeyPairIfNotExist(File publicKeyFile, File privateKeyFile) {
-        boolean keyPairExist = publicKeyFile.exists() && privateKeyFile.exists();
-
-        if (keyPairExist) {
-            log.debug("Key pair can not be generated for reasons :: [KEY_PAIR_ALREADY_EXIST]");
+        if ( publicKeyFile.exists() && privateKeyFile.exists()) {
+            log.debug("KEY_PAIR_ALREADY_EXIST");
             return;
         }
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             KeyPair generatedKeyPair = keyPairGenerator.generateKeyPair();
-            log.debug("publicKeyPath = {}", publicKeyFile.toPath().toString());
-            log.debug("privateKeyPath = {} ", privateKeyFile.toPath().toString());
+            log.debug("publicKeyPath = {}", publicKeyFile.toPath());
+            log.debug("privateKeyPath = {} ", privateKeyFile.toPath());
             try (FileOutputStream fos = new FileOutputStream(publicKeyFile)) {
                 X509EncodedKeySpec x509EncodedPublicKeySpec = new X509EncodedKeySpec(generatedKeyPair.getPublic().getEncoded());
                 fos.write(x509EncodedPublicKeySpec.getEncoded());
