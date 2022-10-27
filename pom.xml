@@ -89,12 +89,6 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.7</version>
 
-				<configuration>
-					<excludes>
-						<exclude>com/initgrep/cr/msauth/MsAuthApplication.class</exclude>
-					</excludes>
-				</configuration>
-
 				<executions>
 					<execution>
 						<goals>
@@ -115,6 +109,12 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
+							<excludes>
+								<exclude>**/*Config.*</exclude>
+								<exclude>**/dto/*.*</exclude>
+								<exclude>**/entity/*.*</exclude>
+								<exclude>**/MsAuthApplication.class</exclude>
+							</excludes>
 							<rules>
 								<rule>
 									<element>BUNDLE</element>

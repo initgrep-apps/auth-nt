@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 
 @Configuration
-public class SecurityConfig {
+public class TokenConfig {
 
     @Autowired
     private KeyManager keyUtils;
