@@ -48,7 +48,9 @@ class TokenServiceImplTest {
 
     @Test
     void test_provideToken_forNewToken() {
-        UserModel user = ServiceTestUtil.getUserModel();
+        var phone = "0000000000";
+        var email = "test@email.com";
+        UserModel user = ServiceTestUtil.getUserModel(phone, email);
         var authenticationToken = ServiceTestUtil.getMockAuthentication(user);
         var accessTokenModel = new TokenModel("1", "access-token");
         var refreshTokenModel = new TokenModel("2", "refresh-token");
@@ -64,7 +66,9 @@ class TokenServiceImplTest {
 
     @Test
     void test_provideToken_forExistingRefreshToken() {
-        UserModel user = ServiceTestUtil.getUserModel();
+        var phone = "0000000000";
+        var email = "test@email.com";
+        UserModel user = ServiceTestUtil.getUserModel(phone,email);
         var authenticationToken = ServiceTestUtil.getMockAuthentication(user);
         var accessTokenModel = new TokenModel("1", "access-token");
         var refreshTokenModel = new TokenModel("2", "refresh-token");

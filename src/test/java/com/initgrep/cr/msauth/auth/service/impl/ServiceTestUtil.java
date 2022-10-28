@@ -13,10 +13,13 @@ import java.util.Set;
 
 class ServiceTestUtil {
 
-    public static UserModel getUserModel() {
-        return UserModel.builder()
-                .fullName("user full name")
-                .email("test@email.com")
+    public static UserModel getUserModel(String phone, String email) {
+        return   UserModel.builder()
+                .phoneNumber(phone)
+                .email(email)
+                .fullName("test")
+                .password("")
+                .grantedAuthorities(Collections.emptySet())
                 .build();
     }
 

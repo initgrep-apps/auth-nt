@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -71,16 +70,8 @@ class AuthUserDetailsManagerTest {
     void test_createUser() {
         String phone = "0000000000";
         String email = "test@email.com";
-        UserModel userModel = UserModel.builder()
-                .phoneNumber(phone)
-                .email(email)
-                .fullName("test")
-                .password("")
-                .grantedAuthorities(Collections.emptySet())
-                .build();
-
+        UserModel userModel = ServiceTestUtil.getUserModel(phone, email);
         Role userRole = ServiceTestUtil.getUserRole();
-
         AppUser appUser = UserMapper.toEntityWithAccountEnabled(userModel);
         appUser.setRoles(Set.of(userRole));
         System.out.println(appUser);
@@ -190,5 +181,13 @@ class AuthUserDetailsManagerTest {
                 .isInstanceOf(UsernameNotFoundException.class)
                 .hasMessage(USER_NOT_FOUND);
 
+    }
+
+    @Test
+    void test_updateUser_forNoImpl() {
+        String phone = "0000000000";
+        String email = "test@email.com";
+        assertThat(catchThrowable(() -> userDetailsManager.updateUser(ServiceTestUtil.getUserModel(phone, email))))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }
