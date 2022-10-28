@@ -22,7 +22,7 @@ class UserToJwtRefreshTokenConverterTest {
         );
         converter.setRefreshTokenExpiryDays(30);
         converter.setIssuerApp("test");
-        
+
         UserModel user = UserModel.builder()
                 .identifier(UUID.randomUUID().toString())
                 .email("test@email.com")

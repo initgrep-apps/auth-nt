@@ -101,6 +101,14 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/*Config.*</exclude>
+								<exclude>**/dto/*.*</exclude>
+								<exclude>**/entity/**</exclude>
+								<exclude>**/MsAuthApplication.class</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 					<execution>
 						<id>default-check</id>
@@ -112,7 +120,7 @@
 							<excludes>
 								<exclude>**/*Config.*</exclude>
 								<exclude>**/dto/*.*</exclude>
-								<exclude>**/entity/*.*</exclude>
+								<exclude>**/entity/**</exclude>
 								<exclude>**/MsAuthApplication.class</exclude>
 							</excludes>
 							<rules>

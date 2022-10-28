@@ -1,5 +1,6 @@
 package com.initgrep.cr.msauth.security.keypair.impl;
 
+import com.initgrep.cr.msauth.auth.exception.KeyPairGenerationException;
 import com.initgrep.cr.msauth.config.AppConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.security.KeyPair;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +52,7 @@ class ManualKeyPairVaultTest {
     }
 
     @Test
-    void getAccessTokenKeyPair_forNull() throws IOException {
+    void getAccessTokenKeyPair_forNotNull() throws IOException {
         Files.createDirectory(Path.of(appConfig.getKeyPair().getDirectory()));
         File accessTokenPublicKeyFile = new File(appConfig.getAccessToken().getPublicKeyPath());
         File accessTokenPrivateKeyFile = new File(appConfig.getAccessToken().getPrivateKeyPath());
@@ -62,6 +64,32 @@ class ManualKeyPairVaultTest {
         KeyPair accessTokenKeyPair = manualKeyPairVault.getAccessTokenKeyPair();
         assertThat(accessTokenKeyPair).isNotNull();
 
+    }
+
+    @Test
+    void getAccessTokenKeyPair_forNonExistingFiles() throws IOException {
+        Files.createDirectory(Path.of(appConfig.getKeyPair().getDirectory()));
+        File accessTokenPublicKeyFile = new File(appConfig.getAccessToken().getPublicKeyPath());
+        File accessTokenPrivateKeyFile = new File(appConfig.getAccessToken().getPrivateKeyPath());
+        File refreshTokenPublicKeyFile = new File(appConfig.getRefreshToken().getPublicKeyPath());
+        File refreshTokenPrivateKeyFile = new File(appConfig.getRefreshToken().getPrivateKeyPath());
+        keyPairVault.generateKeyPairIfNotExist(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
+        keyPairVault.generateKeyPairIfNotExist(refreshTokenPublicKeyFile, refreshTokenPrivateKeyFile);
+        keyPairVault.generateKeyPairIfNotExist(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
+        accessTokenPrivateKeyFile.delete();
+        keyPairVault.generateKeyPairIfNotExist(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
+        accessTokenPublicKeyFile.delete();
+        keyPairVault.generateKeyPairIfNotExist(accessTokenPublicKeyFile, accessTokenPrivateKeyFile);
+        assertThat(accessTokenPrivateKeyFile).exists();
+        assertThat(accessTokenPublicKeyFile).exists();
+    }
+
+    @Test
+    void readAccessTokenFilesForNonExistingFiles() {
+        File publicPath = new File(appConfig.getAccessToken().getPublicKeyPath());
+        File privatePath = new File(appConfig.getAccessToken().getPrivateKeyPath());
+        assertThatExceptionOfType(KeyPairGenerationException.class)
+                .isThrownBy(() -> keyPairVault.readKeyPairFromPath(publicPath, privatePath));
     }
 
     @Test

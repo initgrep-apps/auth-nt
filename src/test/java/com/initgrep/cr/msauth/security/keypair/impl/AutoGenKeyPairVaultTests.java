@@ -94,4 +94,5 @@ class AutoGenKeyPairVaultTests {
         KeyPair refreshTokenKeyPair = keyPairVault.getRefreshTokenKeyPair();
         assertThat(refreshTokenKeyPair).isNotNull();
     }
+
 }

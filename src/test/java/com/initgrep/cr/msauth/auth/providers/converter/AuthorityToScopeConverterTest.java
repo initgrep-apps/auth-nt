@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AuthorityToScopeConverterTest {
 
@@ -21,5 +22,10 @@ class AuthorityToScopeConverterTest {
         authorities.add(new SimpleGrantedAuthority("Y"));
         String result = converter.convert(authorities);
         assertEquals("X Y", result);
+    }
+
+    @Test
+    void scopeConvertTest_ForNull() {
+        assertThrows(NullPointerException.class,  () -> converter.convert(null));
     }
 }

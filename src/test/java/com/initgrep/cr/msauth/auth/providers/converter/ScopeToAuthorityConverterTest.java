@@ -5,8 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ScopeToAuthorityConverterTest {
 
@@ -19,6 +18,11 @@ class ScopeToAuthorityConverterTest {
         assertNotNull(result);
         assertTrue(result.contains(new SimpleGrantedAuthority("Y")));
         assertTrue(result.contains(new SimpleGrantedAuthority("X")));
+    }
+
+    @Test
+    void testScopeToAuthorityConvertForNull(){
+        assertThrows(NullPointerException.class, () -> converter.convert(null));
     }
 
 }

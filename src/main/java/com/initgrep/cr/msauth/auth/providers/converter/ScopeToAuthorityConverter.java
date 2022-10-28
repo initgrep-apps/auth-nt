@@ -2,8 +2,8 @@ package com.initgrep.cr.msauth.auth.providers.converter;
 
 
 import com.initgrep.cr.msauth.auth.constants.AuthConstants;
-import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
