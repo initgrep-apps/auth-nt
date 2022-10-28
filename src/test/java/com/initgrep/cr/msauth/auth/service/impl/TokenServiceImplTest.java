@@ -48,8 +48,8 @@ class TokenServiceImplTest {
 
     @Test
     void test_provideToken_forNewToken() {
-        UserModel user = TokenServiceTestUtil.getUserModel();
-        var authenticationToken = TokenServiceTestUtil.getMockAuthentication(user);
+        UserModel user = ServiceTestUtil.getUserModel();
+        var authenticationToken = ServiceTestUtil.getMockAuthentication(user);
         var accessTokenModel = new TokenModel("1", "access-token");
         var refreshTokenModel = new TokenModel("2", "refresh-token");
         InternalTokenModel internalTokenModel = new InternalTokenModel(accessTokenModel, refreshTokenModel);
@@ -64,14 +64,14 @@ class TokenServiceImplTest {
 
     @Test
     void test_provideToken_forExistingRefreshToken() {
-        UserModel user = TokenServiceTestUtil.getUserModel();
-        var authenticationToken = TokenServiceTestUtil.getMockAuthentication(user);
+        UserModel user = ServiceTestUtil.getUserModel();
+        var authenticationToken = ServiceTestUtil.getMockAuthentication(user);
         var accessTokenModel = new TokenModel("1", "access-token");
         var refreshTokenModel = new TokenModel("2", "refresh-token");
         InternalTokenModel internalTokenModel = new InternalTokenModel(accessTokenModel, refreshTokenModel);
         when(tokenManager.createToken(any(Authentication.class))).thenReturn(internalTokenModel);
         int hits = 1;
-        AppUserToken appUserToken = TokenServiceTestUtil.getMockAppUserRefreshToken(hits);
+        AppUserToken appUserToken = ServiceTestUtil.getMockAppUserRefreshToken(hits);
         when(tokenRepository.findByJwtId(anyString())).thenReturn(Optional.of(appUserToken));
         InternalTokenModel resultInternalTokenModel = tokenService.provideToken(authenticationToken);
         assertThat(internalTokenModel).isSameAs(resultInternalTokenModel);
