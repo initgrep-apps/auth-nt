@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 @Component
-public class TokenGenerator {
+public class TokenManager {
 
     @Autowired
     UserToJwtAccessTokenConverter userToJwtAccessTokenConverter;

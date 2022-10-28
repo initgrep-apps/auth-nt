@@ -25,20 +25,20 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 public class TokenConfig {
 
     @Autowired
-    private KeyManager keyUtils;
+    private KeyManager keyManager;
 
     @Bean
     @Primary
     JwtDecoder jwtAccessTokenDecoder() {
-        return NimbusJwtDecoder.withPublicKey(keyUtils.getAccessTokenPublicKey()).build();
+        return NimbusJwtDecoder.withPublicKey(keyManager.getAccessTokenPublicKey()).build();
     }
 
     @Bean
     @Primary
     public JwtEncoder jwtAccessTokenEncoder() {
         JWK jwk = new RSAKey
-                .Builder(keyUtils.getAccessTokenPublicKey())
-                .privateKey(keyUtils.getAccessTokenPrivateKey())
+                .Builder(keyManager.getAccessTokenPublicKey())
+                .privateKey(keyManager.getAccessTokenPrivateKey())
                 .build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
@@ -47,15 +47,15 @@ public class TokenConfig {
     @Bean
     @Qualifier("jwtRefreshTokenDecoder")
     public JwtDecoder jwtRefreshTokenDecoder() {
-        return NimbusJwtDecoder.withPublicKey(keyUtils.getRefreshTokenPublicKey()).build();
+        return NimbusJwtDecoder.withPublicKey(keyManager.getRefreshTokenPublicKey()).build();
     }
 
     @Bean
     @Qualifier("jwtRefreshTokenEncoder")
     public JwtEncoder jwtRefreshTokenEncoder() {
         JWK jwk = new RSAKey
-                .Builder(keyUtils.getRefreshTokenPublicKey())
-                .privateKey(keyUtils.getRefreshTokenPrivateKey())
+                .Builder(keyManager.getRefreshTokenPublicKey())
+                .privateKey(keyManager.getRefreshTokenPrivateKey())
                 .build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);

@@ -2,6 +2,7 @@ package com.initgrep.cr.msauth.auth.providers.converter;
 
 import com.initgrep.cr.msauth.auth.constants.JwtExtendedClaimNames;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
+@RequiredArgsConstructor
 @Component
 public class JwtToUserConverter implements Converter<Jwt, UsernamePasswordAuthenticationToken> {
 
-    @Autowired
-    private ScopeToAuthorityConverter scopeToAuthorityConverter;
+    private final ScopeToAuthorityConverter scopeToAuthorityConverter;
 
     @Override
     public UsernamePasswordAuthenticationToken convert(Jwt jwt) {

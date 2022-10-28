@@ -7,7 +7,7 @@ import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.entity.AppUserToken;
 import com.initgrep.cr.msauth.auth.repository.AppUserTokenRepository;
 import com.initgrep.cr.msauth.auth.service.TokenService;
-import com.initgrep.cr.msauth.security.TokenGenerator;
+import com.initgrep.cr.msauth.security.TokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -21,7 +21,7 @@ import static com.initgrep.cr.msauth.auth.constants.AuthConstants.INVALID_APP_TO
 public class TokenServiceImpl implements TokenService {
 
     @Autowired
-    private TokenGenerator tokenGenerator;
+    private TokenManager tokenManager;
 
     @Autowired
     private AppUserTokenRepository tokenRepository;
@@ -29,7 +29,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public InternalTokenModel provideToken(Authentication authentication) {
         throwIfNotAppUser(authentication);
-        InternalTokenModel internalTokenModel = tokenGenerator.createToken(authentication);
+        InternalTokenModel internalTokenModel = tokenManager.createToken(authentication);
         saveToken(internalTokenModel.getAccessToken(), TokenType.ACCESS);
         saveToken(internalTokenModel.getRefreshToken(), TokenType.REFRESH);
         return internalTokenModel;
