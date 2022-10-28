@@ -40,15 +40,7 @@ class JwtToUserConverterTest {
 
     @BeforeEach
     void setup() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
-        KeyPair generatedKeyPair = keyPairGenerator.generateKeyPair();
-        JWK jwk = new RSAKey
-                .Builder((RSAPublicKey) generatedKeyPair.getPublic())
-                .privateKey((RSAPrivateKey) generatedKeyPair.getPrivate())
-                .build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        NimbusJwtEncoder jwtEncoder = new NimbusJwtEncoder(jwks);
+        NimbusJwtEncoder jwtEncoder = ConverterTestUtil.getJwtEncoder();
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .id(UUID.randomUUID().toString())
                 .issuer("test")

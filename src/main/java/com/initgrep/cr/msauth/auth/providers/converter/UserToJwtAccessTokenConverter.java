@@ -4,6 +4,9 @@ import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
@@ -20,11 +23,13 @@ import java.util.List;
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.RESOURCE_SERVER;
 import static com.initgrep.cr.msauth.auth.constants.JwtExtendedClaimNames.SCOPE;
 
+@RequiredArgsConstructor
+@Setter
 @Component
 public class UserToJwtAccessTokenConverter implements Converter<Authentication, TokenModel> {
 
-    @Autowired
-    private AuthorityToScopeConverter authorityToScopeConverter;
+    private final AuthorityToScopeConverter authorityToScopeConverter;
+    private final JwtEncoder accessTokenEncoder;
 
     @Value("${spring.application.name}")
     private String issuerApp;
@@ -32,8 +37,6 @@ public class UserToJwtAccessTokenConverter implements Converter<Authentication, 
     @Value("${app.access-token.expiry-duration-min}")
     private int accessTokenExpiryMinutes;
 
-    @Autowired
-    JwtEncoder accessTokenEncoder;
 
     @Override
     public TokenModel convert(Authentication authentication) {

@@ -3,6 +3,8 @@ package com.initgrep.cr.msauth.auth.providers.converter;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +22,15 @@ import java.util.Collections;
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.AUTHORIZATION_SERVER;
 import static com.initgrep.cr.msauth.auth.constants.JwtExtendedClaimNames.SCOPE;
 
+@Setter
+@RequiredArgsConstructor
 @Component
 public class UserToJwtRefreshTokenConverter implements Converter<Authentication, TokenModel> {
 
-    @Autowired
-    private AuthorityToScopeConverter authorityToScopeConverter;
+    private final AuthorityToScopeConverter authorityToScopeConverter;
 
-    @Autowired
     @Qualifier("jwtRefreshTokenEncoder")
-    private JwtEncoder refreshTokenEncoder;
+    private final JwtEncoder refreshTokenEncoder;
     @Value("${spring.application.name}")
     private String issuerApp;
 
