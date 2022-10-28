@@ -1,14 +1,14 @@
 package com.initgrep.cr.msauth.auth.service.impl;
 
 import com.initgrep.cr.msauth.auth.constants.TokenType;
-import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
+import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.entity.AppUserToken;
 import com.initgrep.cr.msauth.auth.repository.AppUserTokenRepository;
 import com.initgrep.cr.msauth.auth.service.TokenService;
 import com.initgrep.cr.msauth.security.TokenManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,13 @@ import java.util.Optional;
 
 import static com.initgrep.cr.msauth.auth.constants.AuthConstants.INVALID_APP_TOKEN;
 
+@RequiredArgsConstructor
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    @Autowired
-    private TokenManager tokenManager;
+    private final TokenManager tokenManager;
 
-    @Autowired
-    private AppUserTokenRepository tokenRepository;
+    private final AppUserTokenRepository tokenRepository;
 
     @Override
     public InternalTokenModel provideToken(Authentication authentication) {

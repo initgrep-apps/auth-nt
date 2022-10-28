@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-public class ConverterTestUtil {
+ class ConverterTestUtil {
 
     public static NimbusJwtEncoder getJwtEncoder() throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");

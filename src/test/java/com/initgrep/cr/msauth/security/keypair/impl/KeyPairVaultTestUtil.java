@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
-public class KeyPairVaultTestUtil {
+class KeyPairVaultTestUtil {
 
     public static AppConfig.KeyPairConfig getKeyPairConfig() {
         AppConfig.KeyPairConfig keyPairConfig = new AppConfig.KeyPairConfig();
