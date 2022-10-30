@@ -3,7 +3,10 @@ package com.initgrep.cr.msauth.auth.service.impl;
 import com.initgrep.cr.msauth.auth.dto.*;
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.service.TokenService;
+import com.initgrep.cr.msauth.config.AppConfig;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -11,6 +14,9 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,13 +50,23 @@ class AuthServiceImplTests {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    AppConfig appConfig;
+
+    @BeforeEach
+    void setupAppConfig() {
+        AppConfig.AccessTokenConfig accessTokenConfig = new AppConfig.AccessTokenConfig();
+        accessTokenConfig.setExpiryDurationMin(5);
+        when(appConfig.getAccessToken()).thenReturn(accessTokenConfig);
+    }
+
 
     @Test
     void testRegister() {
         RegisterModel registerModel = new RegisterModel();
         registerModel.setEmail("test@email.com");
         registerModel.setPassword("somePassword");
-        registerModel.setFullName("some fullname");
+        registerModel.setFullName("some full name");
         registerModel.setOtpInfo(new OtpInfoModel());
 
         UserModel userModel = UserModel.builder()

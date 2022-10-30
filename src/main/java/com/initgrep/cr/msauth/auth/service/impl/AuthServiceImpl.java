@@ -6,6 +6,7 @@ import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.auth.service.TokenService;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
+import com.initgrep.cr.msauth.config.AppConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +30,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     @Qualifier("jwtRefreshTokenAuthenticationProvider")
     private final AuthenticationProvider refreshTokenAuthProvider;
+    private final AppConfig appConfig;
 
     @Transactional
     @Override
@@ -38,8 +40,8 @@ public class AuthServiceImpl implements AuthService {
         userModel.setPassword(encodedPassword);
         userModel = userDetailsService.createUser(userModel);
 
-         var authenticationToken
-                 = UsernamePasswordAuthenticationToken.authenticated(userModel, encodedPassword, userModel.getGrantedAuthorities());
+        var authenticationToken
+                = UsernamePasswordAuthenticationToken.authenticated(userModel, encodedPassword, userModel.getGrantedAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         return buildTokenResponse(tokenService.provideToken(authenticationToken));
@@ -64,6 +66,7 @@ public class AuthServiceImpl implements AuthService {
 
     private TokenResponse buildTokenResponse(InternalTokenModel internalTokenModel) {
         return TokenResponse.builder()
+                .expiresIn(appConfig.getAccessToken().getExpiryDurationMin() * 60)
                 .accessToken(internalTokenModel.getAccessToken().getToken())
                 .refreshToken(internalTokenModel.getRefreshToken().getToken())
                 .build();
