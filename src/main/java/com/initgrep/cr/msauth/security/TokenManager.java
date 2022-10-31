@@ -7,7 +7,6 @@ import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtRefreshTokenConv
 import com.initgrep.cr.msauth.config.AppConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;

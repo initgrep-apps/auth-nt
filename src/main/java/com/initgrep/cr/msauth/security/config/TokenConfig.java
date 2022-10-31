@@ -63,7 +63,8 @@ public class TokenConfig {
 
     @Bean
     @Qualifier("jwtRefreshTokenAuthenticationProvider")
-    public JwtAuthenticationProvider jwtRefreshTokenAuthenticationProvider(JwtToUserConverter jwtToUserConverter, JwtDecoder jwtRefreshTokenDecoder) {
+    public JwtAuthenticationProvider jwtRefreshTokenAuthenticationProvider(JwtToUserConverter jwtToUserConverter,
+                                                                           @Qualifier("jwtRefreshTokenDecoder") JwtDecoder jwtRefreshTokenDecoder) {
         JwtAuthenticationProvider provider = new JwtAuthenticationProvider(jwtRefreshTokenDecoder);
         provider.setJwtAuthenticationConverter(jwtToUserConverter);
         return provider;

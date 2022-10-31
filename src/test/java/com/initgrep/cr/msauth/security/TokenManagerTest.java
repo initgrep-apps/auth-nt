@@ -41,6 +41,9 @@ class TokenManagerTest {
 
 
 
+
+
+
     @Test
     void createToken() throws NoSuchAlgorithmException {
         new AuthorityToScopeConverter();
@@ -76,8 +79,8 @@ class TokenManagerTest {
         InternalTokenModel token = tokenManager.createToken(usernamePasswordAuthenticationToken);
         System.out.println(token.getAccessToken().getToken());
         Jwt jwt = ConverterTestUtil.getJwtDecoder().decode(token.getAccessToken().getToken());
-        Object scp = jwt.getClaims().get("scope");
-        System.out.println(scp);
+        String  scopes = (String) jwt.getClaims().get("scope");
+        System.out.println(scopes);
 
     }
 }
