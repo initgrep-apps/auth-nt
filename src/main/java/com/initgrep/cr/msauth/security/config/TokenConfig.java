@@ -63,8 +63,8 @@ public class TokenConfig {
 
     @Bean
     @Qualifier("jwtRefreshTokenAuthenticationProvider")
-    public JwtAuthenticationProvider jwtRefreshTokenAuthenticationProvider(JwtToUserConverter jwtToUserConverter) {
-        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(jwtRefreshTokenDecoder());
+    public JwtAuthenticationProvider jwtRefreshTokenAuthenticationProvider(JwtToUserConverter jwtToUserConverter, JwtDecoder jwtRefreshTokenDecoder) {
+        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(jwtRefreshTokenDecoder);
         provider.setJwtAuthenticationConverter(jwtToUserConverter);
         return provider;
     }
@@ -73,6 +73,6 @@ public class TokenConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
 
 }

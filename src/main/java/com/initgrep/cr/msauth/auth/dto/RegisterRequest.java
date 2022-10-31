@@ -1,6 +1,6 @@
 package com.initgrep.cr.msauth.auth.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
@@ -8,7 +8,10 @@ import javax.validation.constraints.Pattern;
 import static com.initgrep.cr.msauth.auth.constants.ValidationConstants.*;
 
 @Data
-public class RegisterModel {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterRequest {
 
     @Email(regexp = EMAIL_PATTERN, message = EMAIL_INVALID)
     private String email;

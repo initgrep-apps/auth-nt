@@ -1,12 +1,8 @@
 server:
   port: 8100
-  servlet:
-    context-path: /api/v1/
 spring:
   application:
     name: auth
-  profiles:
-    default: dev
 
   datasource:
     url: ${POSTGRES_DB_PATH}

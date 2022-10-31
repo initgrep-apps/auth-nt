@@ -5,7 +5,6 @@ import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.service.TokenService;
 import com.initgrep.cr.msauth.config.AppConfig;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,9 +13,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,16 +59,16 @@ class AuthServiceImplTests {
 
     @Test
     void testRegister() {
-        RegisterModel registerModel = new RegisterModel();
-        registerModel.setEmail("test@email.com");
-        registerModel.setPassword("somePassword");
-        registerModel.setFullName("some full name");
-        registerModel.setOtpInfo(new OtpInfoModel());
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail("test@email.com");
+        registerRequest.setPassword("somePassword");
+        registerRequest.setFullName("some full name");
+        registerRequest.setOtpInfo(new OtpInfoModel());
 
         UserModel userModel = UserModel.builder()
-                .email(registerModel.getEmail())
-                .fullName(registerModel.getFullName())
-                .phoneNumber(registerModel.getPhoneNumber())
+                .email(registerRequest.getEmail())
+                .fullName(registerRequest.getFullName())
+                .phoneNumber(registerRequest.getPhoneNumber())
                 .identifier(UUID.randomUUID().toString())
                 .build();
 
@@ -81,33 +77,33 @@ class AuthServiceImplTests {
         when(userDetailsService.createUser(any(UserModel.class))).thenReturn(userModel);
         when(tokenService.provideToken(any())).thenReturn(mockToken());
 
-        TokenResponse tokenResponse = authService.register(registerModel);
+        TokenResponse tokenResponse = authService.register(registerRequest);
         Assertions.assertThat(tokenResponse).isNotNull();
     }
 
     @Test
     void testLoginWithPhoneNumberAsUsername() {
-        LoginModel loginModel = new LoginModel();
-        loginModel.setEmail("test@email.com");
-        loginModel.setPassword("password");
-        loginModel.setOtpInfo(new OtpInfoModel());
-        loginModel.setPhoneNumber("1234567890");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("test@email.com");
+        loginRequest.setPassword("password");
+        loginRequest.setOtpInfo(new OtpInfoModel());
+        loginRequest.setPhoneNumber("1234567890");
 
         when(tokenService.provideToken(any())).thenReturn(mockToken());
-        TokenResponse tokenResponse = authService.login(loginModel);
+        TokenResponse tokenResponse = authService.login(loginRequest);
         Assertions.assertThat(tokenResponse).isNotNull();
     }
 
     @Test
     void testLoginWithEmailAsUsername() {
-        LoginModel loginModel = new LoginModel();
-        loginModel.setEmail("test@email.com");
-        loginModel.setPassword("password");
-        loginModel.setOtpInfo(new OtpInfoModel());
-        loginModel.setPhoneNumber("");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("test@email.com");
+        loginRequest.setPassword("password");
+        loginRequest.setOtpInfo(new OtpInfoModel());
+        loginRequest.setPhoneNumber("");
 
         when(tokenService.provideToken(any())).thenReturn(mockToken());
-        TokenResponse tokenResponse = authService.login(loginModel);
+        TokenResponse tokenResponse = authService.login(loginRequest);
         Assertions.assertThat(tokenResponse).isNotNull();
     }
 
@@ -129,7 +125,6 @@ class AuthServiceImplTests {
         when(tokenService.provideToken(any())).thenReturn(mockToken());
         TokenResponse tokenResponse = authService.getNewAccessToken(refreshTokenRequest);
         Assertions.assertThat(tokenResponse).isNotNull();
-        System.out.println(argumentCaptor.getValue().getToken());
     }
 
 

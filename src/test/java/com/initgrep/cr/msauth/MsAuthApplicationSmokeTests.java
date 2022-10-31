@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class MsAuthApplicationSmokeTests {
 
-    // Add all the paramters here
+    // Add all the controllers here
     @Test
     void smokeTest(@Autowired AuthController authController){
         Assertions.assertThat(authController).isNotNull();

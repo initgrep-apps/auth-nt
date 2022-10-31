@@ -1,13 +1,10 @@
 package com.initgrep.cr.msauth.auth.providers.converter;
 
-import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.Authentication;

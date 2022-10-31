@@ -14,6 +14,7 @@ import static com.initgrep.cr.msauth.auth.constants.AuthConstants.SPACE;
 @Component
 public class AuthorityToScopeConverter implements Converter<Set<SimpleGrantedAuthority>, String> {
     @Override
+    @NonNull
     public String convert(@NonNull Set<SimpleGrantedAuthority> authorities) {
         return
                 authorities.stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.joining(SPACE));

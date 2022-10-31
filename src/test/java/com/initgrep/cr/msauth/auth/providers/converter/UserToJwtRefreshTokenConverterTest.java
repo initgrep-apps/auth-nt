@@ -36,6 +36,7 @@ class UserToJwtRefreshTokenConverterTest {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                 = UsernamePasswordAuthenticationToken.unauthenticated(user, null);
         TokenModel tokenModel = converter.convert(usernamePasswordAuthenticationToken);
+        assertThat(tokenModel.getToken()).isNotNull();
         assertThat(tokenModel.getToken()).isNotBlank();
         assertThat(tokenModel.getJit()).isNotBlank();
 

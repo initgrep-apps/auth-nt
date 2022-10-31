@@ -1,10 +1,12 @@
 package com.initgrep.cr.msauth.security;
 
-import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
+import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtAccessTokenConverter;
 import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtRefreshTokenConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.initgrep.cr.msauth.config.AppConfig;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -13,17 +15,16 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.Instant;
 
+@RequiredArgsConstructor
+@Setter
 @Component
 public class TokenManager {
 
-    @Autowired
-    UserToJwtAccessTokenConverter userToJwtAccessTokenConverter;
+    private final UserToJwtAccessTokenConverter userToJwtAccessTokenConverter;
 
-    @Autowired
-    UserToJwtRefreshTokenConverter userToJwtRefreshTokenConverter;
+    private final UserToJwtRefreshTokenConverter userToJwtRefreshTokenConverter;
 
-    @Value("${app.refresh-token.min-renewal-days}")
-    private int refreshTokenMinRenewalDays;
+    private final AppConfig appConfig;
 
 
     public InternalTokenModel createToken(Authentication authentication) {
@@ -47,7 +48,7 @@ public class TokenManager {
         }
         Jwt jwt = (Jwt) authentication.getCredentials();
         long days = Duration.between(Instant.now(), jwt.getExpiresAt()).toDays();
-        return days < refreshTokenMinRenewalDays;
+        return days < appConfig.getRefreshToken().getMinRenewalDays();
     }
 
 }

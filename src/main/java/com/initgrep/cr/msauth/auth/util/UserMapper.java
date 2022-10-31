@@ -1,6 +1,6 @@
 package com.initgrep.cr.msauth.auth.util;
 
-import com.initgrep.cr.msauth.auth.dto.RegisterModel;
+import com.initgrep.cr.msauth.auth.dto.RegisterRequest;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import com.initgrep.cr.msauth.auth.entity.AppUser;
 import com.initgrep.cr.msauth.auth.entity.Role;
@@ -42,11 +42,11 @@ public final class UserMapper {
         return appUser;
     }
 
-    public static UserModel toUserModel(RegisterModel registerModel) {
+    public static UserModel toUserModel(RegisterRequest registerRequest) {
         return UserModel.builder()
-                .email(registerModel.getEmail())
-                .fullName(registerModel.getFullName())
-                .phoneNumber(registerModel.getPhoneNumber())
+                .email(registerRequest.getEmail())
+                .fullName(registerRequest.getFullName())
+                .phoneNumber(registerRequest.getPhoneNumber())
                 .build();
     }
 

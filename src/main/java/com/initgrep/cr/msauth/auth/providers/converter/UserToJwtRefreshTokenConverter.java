@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -37,6 +38,7 @@ public class UserToJwtRefreshTokenConverter implements Converter<Authentication,
     private int refreshTokenExpiryDays;
 
     @Override
+    @NonNull
     public TokenModel convert(Authentication authentication) {
         var user = (UserModel) authentication.getPrincipal();
         var now = Instant.now();

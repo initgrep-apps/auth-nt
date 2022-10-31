@@ -4,8 +4,8 @@ import com.initgrep.cr.msauth.auth.dto.*;
 
 public interface AuthService {
 
-    TokenResponse register(RegisterModel registerModel);
-    TokenResponse login(LoginModel loginModel);
+    TokenResponse register(RegisterRequest registerRequest);
+    TokenResponse login(LoginRequest loginRequest);
     TokenResponse getNewAccessToken(RefreshTokenRequest refreshTokenRequest);
 
 

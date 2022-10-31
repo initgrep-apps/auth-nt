@@ -34,9 +34,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public TokenResponse register(RegisterModel registerModel) {
-        var userModel = UserMapper.toUserModel(registerModel);
-        var encodedPassword = passwordEncoder.encode(registerModel.getPassword());
+    public TokenResponse register(RegisterRequest registerRequest) {
+        var userModel = UserMapper.toUserModel(registerRequest);
+        var encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
         userModel.setPassword(encodedPassword);
         userModel = userDetailsService.createUser(userModel);
 
@@ -48,9 +48,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public TokenResponse login(LoginModel loginModel) {
-        var designatedUserName = !UtilMethods.isEmpty(loginModel.getPhoneNumber()) ? loginModel.getPhoneNumber() : loginModel.getEmail();
-        var unauthenticatedToken = UsernamePasswordAuthenticationToken.unauthenticated(designatedUserName, loginModel.getPassword());
+    public TokenResponse login(LoginRequest loginRequest) {
+        var designatedUserName = !UtilMethods.isEmpty(loginRequest.getPhoneNumber()) ? loginRequest.getPhoneNumber() : loginRequest.getEmail();
+        var unauthenticatedToken = UsernamePasswordAuthenticationToken.unauthenticated(designatedUserName, loginRequest.getPassword());
         var authenticatedToken = (UsernamePasswordAuthenticationToken) optionalPasswordDaoAuthenticationProvider.authenticate(unauthenticatedToken);
         SecurityContextHolder.getContext().setAuthentication(authenticatedToken);
         return buildTokenResponse(tokenService.provideToken(authenticatedToken));
