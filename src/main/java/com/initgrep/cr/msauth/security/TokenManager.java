@@ -42,12 +42,12 @@ public class TokenManager {
     }
 
     private boolean shouldIssueFreshRefreshToken(Authentication authentication) {
-        if (!(authentication.getCredentials() instanceof Jwt)) {
-            return true;
+        if ((authentication.getCredentials() instanceof Jwt)) {
+            Jwt jwt = (Jwt) authentication.getCredentials();
+            long days = Duration.between(Instant.now(), jwt.getExpiresAt()).toDays();
+            return days < appConfig.getRefreshToken().getMinRenewalDays();
         }
-        Jwt jwt = (Jwt) authentication.getCredentials();
-        long days = Duration.between(Instant.now(), jwt.getExpiresAt()).toDays();
-        return days < appConfig.getRefreshToken().getMinRenewalDays();
+        return true;
     }
 
 }
