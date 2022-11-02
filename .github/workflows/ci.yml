@@ -9,9 +9,13 @@ on:
       - synchronize
 run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 jobs:
+  env:
+    MIN_COVERAGE_PERCENT: .95
   build-analysis:
     uses: ./.github/workflows/analysis.yml
     secrets: inherit
 
   build-test:
     uses: ./.github/workflows/test.yml
+    with:
+      min-coverage-percent: $env.MIN_COVERAGE_PERCENT

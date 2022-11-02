@@ -1,6 +1,10 @@
 name: Test
 on:
   workflow_call:
+    inputs:
+      min-coverage-percent:
+          required: true
+          type: number
 jobs:
   test:
     name: Test
@@ -43,7 +47,7 @@ jobs:
           echo "branches = ${{ steps.jacoco.outputs.branches }}"
 
       - name: Test the coverage condition
-        if: ${{steps.jacoco.outputs.coverage < 1.9 }}
+        if: ${{steps.jacoco.outputs.coverage <= inputs.min-coverage-percent }}
         run: |
           echo "coverage checks not met"
           exit 1

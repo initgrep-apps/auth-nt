@@ -5,12 +5,16 @@ on:
 run-name: Publish by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Publish
 jobs:
+  env:
+    MIN_COVERAGE_PERCENT: .95
   publish-analysis:
     uses: ./.github/workflows/analysis.yml
     secrets: inherit
 
   publish-test:
     uses: ./.github/workflows/test.yml
+    with:
+      min-coverage-percent: $env.MIN_COVERAGE_PERCENT
     needs:
       - publish-analysis
 
