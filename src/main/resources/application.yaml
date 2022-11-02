@@ -1,13 +1,11 @@
 server:
   port: 8100
-  servlet:
-    context-path: /api/v1/
 spring:
   application:
     name: auth
-  #prod profile is active
   profiles:
-    active: ${ACTIVE_PROFILE}
+    active: dev
+
   datasource:
     url: ${POSTGRES_DB_PATH}
     username: ${POSTGRES_DB_USERNAME}
@@ -22,17 +20,10 @@ spring:
   cache:
     type: none
 
-
-access-token:
-  public: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
-  private: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
-refresh-token:
-  public: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
-  private: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
-
   #Logging
 logging:
   level:
+    root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
@@ -43,10 +34,17 @@ logging:
 log4j:
   logger.httpclient.wire: DEBUG
 
+
 #application variables
 app:
+  key-pair:
+    directory: token-keys
   access-token:
+    public-key-path: ${ACCESS_TOKEN_PUBLIC_KEY_PATH}
+    private-key-path: ${ACCESS_TOKEN_PRIVATE_KEY_PATH}
     expiry-duration-min: ${APP_ACCESS_TOKEN_EXPIRY_DURATION_MIN}
   refresh-token:
+    public-key-path: ${REFRESH_TOKEN_PUBLIC_KEY_PATH}
+    private-key-path: ${REFRESH_TOKEN_PRIVATE_KEY_PATH}
     expiry-duration-days: ${APP_REFRESH_TOKEN_EXPIRY_DURATION_DAYS}
     min-renewal-days: ${APP_REFRESH_TOKEN_MIN_RENEWAL_DAYS}

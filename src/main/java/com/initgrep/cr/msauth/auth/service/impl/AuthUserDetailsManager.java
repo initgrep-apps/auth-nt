@@ -6,31 +6,26 @@ import com.initgrep.cr.msauth.auth.repository.RoleRepository;
 import com.initgrep.cr.msauth.auth.repository.UserRepository;
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.util.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Set;
 
-import static com.initgrep.cr.msauth.auth.constants.AuthConstants.USER_ALREADY_EXIST;
-import static com.initgrep.cr.msauth.auth.constants.AuthConstants.USER_NOT_FOUND;
+import static com.initgrep.cr.msauth.auth.constants.AuthConstants.*;
 
+@RequiredArgsConstructor
 @Service
 public class AuthUserDetailsManager implements AppUserDetailsManager {
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserModel createUser(UserModel user) {
         throwIfExistingUser(user);
         var appUser = UserMapper.toEntityWithAccountEnabled(user);
-        var roleUser = roleRepository.findByName("user");
+        var roleUser = roleRepository.findByName(ROLE_USER);
         appUser.setRoles(Set.of(roleUser));
         appUser = userRepository.save(appUser);
         return UserMapper.fromEntity(appUser);
@@ -38,17 +33,7 @@ public class AuthUserDetailsManager implements AppUserDetailsManager {
 
     @Override
     public UserModel updateUser(UserModel user) {
-        return null;
-    }
-
-    @Override
-    public void deleteUser(String identifier) {
-        // TODO document why this method is empty
-    }
-
-    @Override
-    public void changePassword(String oldPassword, String newPassword) {
-        // TODO document why this method is empty
+        throw new UnsupportedOperationException("Operation not Implemented yet");
     }
 
     @Override
@@ -66,7 +51,7 @@ public class AuthUserDetailsManager implements AppUserDetailsManager {
     }
 
     private void throwIfExistingUser(UserModel userModel) {
-        if (userRepository.existsByEmail(userModel.getEmail()) || userRepository.existsByPhoneNumber(userModel.getPhoneNumber()) ) {
+        if (userRepository.existsByEmail(userModel.getEmail()) || userRepository.existsByPhoneNumber(userModel.getPhoneNumber())) {
             throw new UserExistsException(USER_ALREADY_EXIST);
         }
     }

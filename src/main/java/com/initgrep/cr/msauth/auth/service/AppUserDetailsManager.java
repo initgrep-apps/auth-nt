@@ -18,19 +18,6 @@ public interface AppUserDetailsManager extends UserDetailsService {
     UserModel updateUser(UserModel user);
 
     /**
-     * Remove the user with the given login name from the system.
-     */
-    void deleteUser(String identifier);
-
-    /**
-     * Modify the current user's password. This should change the user's password in the
-     * persistent user repository (datbase, LDAP etc).
-     * @param oldPassword current password (for re-authentication if required)
-     * @param newPassword the password to change to
-     */
-    void changePassword(String oldPassword, String newPassword);
-
-    /**
      * Check if a user with the supplied login name exists in the system.
      */
     boolean userExists(String identifier);

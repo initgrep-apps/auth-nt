@@ -7,6 +7,7 @@ on:
       - opened
       - reopened
       - synchronize
+
 run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 jobs:
   build-analysis:
@@ -15,3 +16,6 @@ jobs:
 
   build-test:
     uses: ./.github/workflows/test.yml
+    with:
+      min-coverage-percent: .95
+    needs: build-analysis

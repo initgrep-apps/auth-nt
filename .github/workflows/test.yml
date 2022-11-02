@@ -1,6 +1,10 @@
 name: Test
 on:
   workflow_call:
+    inputs:
+      min-coverage-percent:
+          required: true
+          type: number
 jobs:
   test:
     name: Test
@@ -39,9 +43,15 @@ jobs:
           generate-summary: true
       - name: Log Coverage percentage to workflow output
         run: |
-          echo "coverage =  ${{ steps.jacoco.outputs.coverage }}"
-          echo "branches = ${{ steps.jacoco.outputs.branches }}"
+          echo "Expected Min Coverage =  ${{ inputs.min-coverage-percent }}"
+          echo "Coverage =  ${{ steps.jacoco.outputs.coverage }}"
+          echo "Branches = ${{ steps.jacoco.outputs.branches }}"
 
+      - name: Exit if coverage condition not met
+        if: ${{steps.jacoco.outputs.coverage < inputs.min-coverage-percent }}
+        run: |
+          echo "coverage checks not met"
+          exit 1
       - name: Upload Jacoco coverage report as a workflow artifact
         uses: actions/upload-artifact@v3
         with:

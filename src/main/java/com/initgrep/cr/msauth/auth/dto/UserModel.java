@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -22,7 +23,7 @@ public class UserModel implements UserDetails {
     private String phoneNumber;
     private String password;
 
-    private Set<SimpleGrantedAuthority> grantedAuthorities;
+    private Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
 
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;

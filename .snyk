@@ -8,3 +8,7 @@ ignore:
     - '* > com.h2database:h2':
         reason: 'Fix not available yet'
         expires: '2022-12-01T00:00:00.000Z'
+  'SNYK-JAVA-ORGSPRINGFRAMEWORKSECURITY-3092126':
+    - '* > org.springframework.security:spring-security-web':
+        reason: 'will update once spring-boot-starter-security has the accumulative fix'
+        expires: '2022-12-01T00:00:00.000Z'
