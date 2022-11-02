@@ -43,8 +43,9 @@ jobs:
           generate-summary: true
       - name: Log Coverage percentage to workflow output
         run: |
-          echo "coverage =  ${{ steps.jacoco.outputs.coverage }}"
-          echo "branches = ${{ steps.jacoco.outputs.branches }}"
+          echo "Expected Min Coverage =  ${{ inputs.min-coverage-percent }}"
+          echo "Coverage =  ${{ steps.jacoco.outputs.coverage }}"
+          echo "Branches = ${{ steps.jacoco.outputs.branches }}"
 
       - name: Test the coverage condition
         if: ${{steps.jacoco.outputs.coverage < inputs.min-coverage-percent }}
