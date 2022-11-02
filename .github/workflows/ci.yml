@@ -7,9 +7,10 @@ on:
       - opened
       - reopened
       - synchronize
-run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
 env:
   MIN_COVERAGE_PERCENT: .95
+run-name: Build by (${{ github.actor }}) Event - [${{ github.event_name }}]
+
 jobs:
   build-analysis:
     uses: ./.github/workflows/analysis.yml
@@ -18,4 +19,4 @@ jobs:
   build-test:
     uses: ./.github/workflows/test.yml
     with:
-      min-coverage-percent: $MIN_COVERAGE_PERCENT
+      min-coverage-percent: ${{ MIN_COVERAGE_PERCENT }}
