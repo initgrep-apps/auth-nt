@@ -18,4 +18,4 @@ jobs:
   build-test:
     uses: ./.github/workflows/test.yml
     with:
-      min-coverage-percent: ${{env.MIN_COVERAGE_PERCENT}}
+      min-coverage-percent: $env.MIN_COVERAGE_PERCENT

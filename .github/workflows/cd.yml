@@ -14,7 +14,7 @@ jobs:
   publish-test:
     uses: ./.github/workflows/test.yml
     with:
-      min-coverage-percent: ${{ env.MIN_COVERAGE_PERCENT }}
+      min-coverage-percent: $env.MIN_COVERAGE_PERCENT
     needs:
       - publish-analysis
 
