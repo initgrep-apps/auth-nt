@@ -16,9 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: step1
-        run: |
-          echo "min_coverage_percent = $MIN_COVERAGE_PERCENT"
-          echo "min_coverage_percent = ${{ MIN_COVERAGE_PERCENT }}"
+        run: echo "min_coverage_percent = ${{ env.MIN_COVERAGE_PERCENT }}"
 
   build-analysis:
     uses: ./.github/workflows/analysis.yml
