@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: auth
+  profiles:
+    active: dev
 
   datasource:
     url: ${POSTGRES_DB_PATH}
