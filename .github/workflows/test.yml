@@ -47,7 +47,7 @@ jobs:
           echo "Coverage =  ${{ steps.jacoco.outputs.coverage }}"
           echo "Branches = ${{ steps.jacoco.outputs.branches }}"
 
-      - name: Test the coverage condition
+      - name: Exit if coverage condition not met
         if: ${{steps.jacoco.outputs.coverage < inputs.min-coverage-percent }}
         run: |
           echo "coverage checks not met"
