@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.providers.converter;
+package com.initgrep.cr.msauth.auth.converter;
 
 
 import com.initgrep.cr.msauth.auth.constants.AuthConstants;

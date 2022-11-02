@@ -1,8 +1,8 @@
 package com.initgrep.cr.msauth.security;
 
+import com.initgrep.cr.msauth.auth.converter.*;
 import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
-import com.initgrep.cr.msauth.auth.providers.converter.*;
 import com.initgrep.cr.msauth.config.AppConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

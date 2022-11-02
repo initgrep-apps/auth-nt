@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.initgrep.cr.msauth.auth.dto.LoginRequest;
 import com.initgrep.cr.msauth.auth.dto.RefreshTokenRequest;
 import com.initgrep.cr.msauth.auth.dto.RegisterRequest;
-import com.initgrep.cr.msauth.auth.providers.converter.JwtToUserConverter;
+import com.initgrep.cr.msauth.auth.converter.JwtToUserConverter;
 import com.initgrep.cr.msauth.auth.service.AuthService;
 import com.initgrep.cr.msauth.security.config.WebSecurityConfig;
 import org.junit.jupiter.api.Test;

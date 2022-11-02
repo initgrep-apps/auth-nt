@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.providers;
+package com.initgrep.cr.msauth.auth.provider;
 
 import com.initgrep.cr.msauth.auth.service.AppUserDetailsManager;
 import com.initgrep.cr.msauth.auth.util.UtilMethods;

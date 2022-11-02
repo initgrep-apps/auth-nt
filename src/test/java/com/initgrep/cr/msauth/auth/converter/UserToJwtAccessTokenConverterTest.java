@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.providers.converter;
+package com.initgrep.cr.msauth.auth.converter;
 
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
@@ -10,18 +10,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-class UserToJwtRefreshTokenConverterTest {
+class UserToJwtAccessTokenConverterTest {
+
 
     @Test
     void convert() throws NoSuchAlgorithmException {
-        UserToJwtRefreshTokenConverter converter = new UserToJwtRefreshTokenConverter(
+        UserToJwtAccessTokenConverter converter = new UserToJwtAccessTokenConverter(
                 new AuthorityToScopeConverter(),
                 ConverterTestUtil.getJwtEncoder()
         );
-        converter.setRefreshTokenExpiryDays(30);
-        converter.setIssuerApp("test");
+        converter.setAccessTokenExpiryMinutes(5);
+        converter.setIssuerApp("testApp");
 
         UserModel user = UserModel.builder()
                 .identifier(UUID.randomUUID().toString())
@@ -36,7 +37,6 @@ class UserToJwtRefreshTokenConverterTest {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                 = UsernamePasswordAuthenticationToken.unauthenticated(user, null);
         TokenModel tokenModel = converter.convert(usernamePasswordAuthenticationToken);
-        assertThat(tokenModel.getToken()).isNotNull();
         assertThat(tokenModel.getToken()).isNotBlank();
         assertThat(tokenModel.getJit()).isNotBlank();
 

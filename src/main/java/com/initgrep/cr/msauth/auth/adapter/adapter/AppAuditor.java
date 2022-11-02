@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.providers.adapter;
+package com.initgrep.cr.msauth.auth.adapter.adapter;
 
 import com.initgrep.cr.msauth.auth.dto.UserModel;
 import lombok.NonNull;

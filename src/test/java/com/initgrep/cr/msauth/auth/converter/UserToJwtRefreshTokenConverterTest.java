@@ -1,33 +1,27 @@
-package com.initgrep.cr.msauth.auth.providers.converter;
+package com.initgrep.cr.msauth.auth.converter;
 
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
 import com.initgrep.cr.msauth.auth.dto.UserModel;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-class UserToJwtAccessTokenConverterTest {
-
+class UserToJwtRefreshTokenConverterTest {
 
     @Test
     void convert() throws NoSuchAlgorithmException {
-        UserToJwtAccessTokenConverter converter = new UserToJwtAccessTokenConverter(
+        UserToJwtRefreshTokenConverter converter = new UserToJwtRefreshTokenConverter(
                 new AuthorityToScopeConverter(),
                 ConverterTestUtil.getJwtEncoder()
         );
-        converter.setAccessTokenExpiryMinutes(5);
-        converter.setIssuerApp("testApp");
+        converter.setRefreshTokenExpiryDays(30);
+        converter.setIssuerApp("test");
 
         UserModel user = UserModel.builder()
                 .identifier(UUID.randomUUID().toString())
@@ -42,6 +36,7 @@ class UserToJwtAccessTokenConverterTest {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                 = UsernamePasswordAuthenticationToken.unauthenticated(user, null);
         TokenModel tokenModel = converter.convert(usernamePasswordAuthenticationToken);
+        assertThat(tokenModel.getToken()).isNotNull();
         assertThat(tokenModel.getToken()).isNotBlank();
         assertThat(tokenModel.getJit()).isNotBlank();
 

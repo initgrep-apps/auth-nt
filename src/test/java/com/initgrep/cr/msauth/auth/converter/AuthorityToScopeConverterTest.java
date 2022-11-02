@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.providers.converter;
+package com.initgrep.cr.msauth.auth.converter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

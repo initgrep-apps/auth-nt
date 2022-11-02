@@ -1,6 +1,6 @@
 package com.initgrep.cr.msauth.security.config;
 
-import com.initgrep.cr.msauth.auth.providers.converter.JwtToUserConverter;
+import com.initgrep.cr.msauth.auth.converter.JwtToUserConverter;
 import com.initgrep.cr.msauth.security.KeyManager;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;

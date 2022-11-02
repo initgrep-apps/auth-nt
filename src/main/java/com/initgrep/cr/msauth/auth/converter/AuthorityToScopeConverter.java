@@ -1,4 +1,4 @@
-package com.initgrep.cr.msauth.auth.providers.converter;
+package com.initgrep.cr.msauth.auth.converter;
 
 
 import org.springframework.core.convert.converter.Converter;

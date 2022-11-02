@@ -2,8 +2,8 @@ package com.initgrep.cr.msauth.security;
 
 import com.initgrep.cr.msauth.auth.dto.InternalTokenModel;
 import com.initgrep.cr.msauth.auth.dto.TokenModel;
-import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtAccessTokenConverter;
-import com.initgrep.cr.msauth.auth.providers.converter.UserToJwtRefreshTokenConverter;
+import com.initgrep.cr.msauth.auth.converter.UserToJwtAccessTokenConverter;
+import com.initgrep.cr.msauth.auth.converter.UserToJwtRefreshTokenConverter;
 import com.initgrep.cr.msauth.config.AppConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
