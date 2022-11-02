@@ -42,6 +42,11 @@ jobs:
           echo "coverage =  ${{ steps.jacoco.outputs.coverage }}"
           echo "branches = ${{ steps.jacoco.outputs.branches }}"
 
+      - name: Test the coverage condition
+        if: ${{steps.jacoco.outputs.coverage < 1.9 }}
+        run: |
+          echo "coverage checks not met"
+          exit 1
       - name: Upload Jacoco coverage report as a workflow artifact
         uses: actions/upload-artifact@v3
         with:

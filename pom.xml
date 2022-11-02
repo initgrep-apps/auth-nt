@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.2</version>
+		<version>2.7.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.initgrep.cr</groupId>
@@ -88,7 +88,6 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.7</version>
-
 				<executions>
 					<execution>
 						<goals>
@@ -123,18 +122,18 @@
 								<exclude>**/entity/**</exclude>
 								<exclude>**/MsAuthApplication.class</exclude>
 							</excludes>
-							<rules>
-								<rule>
-									<element>BUNDLE</element>
-									<limits>
-										<limit>
-											<counter>COMPLEXITY</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>.95</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
+<!--							<rules>-->
+<!--								<rule>-->
+<!--									<element>BUNDLE</element>-->
+<!--									<limits>-->
+<!--										<limit>-->
+<!--											<counter>COMPLEXITY</counter>-->
+<!--											<value>COVEREDRATIO</value>-->
+<!--											<minimum>.95</minimum>-->
+<!--										</limit>-->
+<!--									</limits>-->
+<!--								</rule>-->
+<!--							</rules>-->
 						</configuration>
 					</execution>
 				</executions>
