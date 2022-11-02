@@ -4,7 +4,6 @@ on:
       - main
 run-name: Publish by (${{ github.actor }}) Event - [${{ github.event_name }}]
 name: Publish
-
 jobs:
   publish-analysis:
     uses: ./.github/workflows/analysis.yml
@@ -13,7 +12,7 @@ jobs:
   publish-test:
     uses: ./.github/workflows/test.yml
     with:
-      min-coverage-percent: ${{ env.MIN_COVERAGE_PERCENT }}
+      min-coverage-percent: .95
     needs:
       - publish-analysis
 
@@ -28,7 +27,7 @@ jobs:
         target: [ dev, sit, uat, prod ]
     uses: ./.github/workflows/deployment.yml
     with:
-      target-environment: .95
+      target-environment: ${{ matrix.target }}
     needs:
       - release-tag
 
