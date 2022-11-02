@@ -31,7 +31,7 @@ jobs:
         target: [ dev, sit, uat, prod ]
     uses: ./.github/workflows/deployment.yml
     with:
-      target-environment: "$MIN_COVERAGE_PERCENT"
+      target-environment: .95
     needs:
       - release-tag
 
