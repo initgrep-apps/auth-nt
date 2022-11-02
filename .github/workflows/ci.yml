@@ -18,7 +18,5 @@ jobs:
 
   build-test:
     uses: ./.github/workflows/test.yml
-    env:
-      MIN_COVERAGE_PERCENT: .95
     with:
       min-coverage-percent: "${{ env.MIN_COVERAGE_PERCENT }}"
