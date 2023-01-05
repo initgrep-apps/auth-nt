@@ -2,11 +2,12 @@
 POSTGRES_DB_PATH: "jdbc:postgresql://localhost:5432/cr_dev_01"
 POSTGRES_DB_USERNAME: "postgres"
 POSTGRES_DB_PASSWORD: "password"
-ACCESS_TOKEN_PUBLIC_KEY_PATH: "token-keys/access-token-public.key"
-ACCESS_TOKEN_PRIVATE_KEY_PATH: "token-keys/access-token-private.key"
-REFRESH_TOKEN_PUBLIC_KEY_PATH: "token-keys/refresh-token-public.key"
-REFRESH_TOKEN_PRIVATE_KEY_PATH: "token-keys/refresh-token-private.key"
-
-APP_ACCESS_TOKEN_EXPIRY_DURATION_MIN: 5
-APP_REFRESH_TOKEN_EXPIRY_DURATION_DAYS: 30
+#
+#ACCESS_TOKEN_PUBLIC_KEY_PATH: "token-keys/access-token-public.key"
+#ACCESS_TOKEN_PRIVATE_KEY_PATH: "token-keys/access-token-private.key"
+#REFRESH_TOKEN_PUBLIC_KEY_PATH: "token-keys/refresh-token-public.key"
+#REFRESH_TOKEN_PRIVATE_KEY_PATH: "token-keys/refresh-token-private.key"
+#
+#APP_ACCESS_TOKEN_EXPIRY_DURATION_MIN: 5
+#APP_REFRESH_TOKEN_EXPIRY_DURATION_DAYS: 30
 APP_REFRESH_TOKEN_MIN_RENEWAL_DAYS: 7
