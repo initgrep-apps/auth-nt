@@ -1,5 +1,5 @@
-server:
-  port: 8100
+#server:
+#  port: 8100
 spring:
   application:
     name: auth
